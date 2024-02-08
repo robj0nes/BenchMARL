@@ -13,6 +13,8 @@
 cd "${SLURM_SUBMIT_DIR}"/..
 nvidia-smi
 nvidia-smi mig -lgip
-python benchmarl/run.py algorithm=mappo task=vmas/dispersion
+MODEL='model=layers/gnn'
+EXP='experiment.train_device="cuda" experiment.sampling_device="cuda"'
+python benchmarl/run.py algorithm=mappo task=vmas/joint_passage "${MODEL}" "${EXP}"
 # python benchmarl/run.py algorithm=mappo task=vmas/dispersion experiment.render=False
 # python train/train_multi_give_way.py
