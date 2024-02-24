@@ -4,5 +4,6 @@ topology: full
 self_loops: False
 
 gnn_class: torch_geometric.nn.conv.GraphConv
+#gnn_class: torch_geometric.nn.conv.DNAConv
 gnn_kwargs:
   aggr: "add"

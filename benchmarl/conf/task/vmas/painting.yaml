@@ -4,4 +4,4 @@ defaults:
 
 max_steps: 100
 n_agents: 4
-n_solutions: 2
+n_goals: 1

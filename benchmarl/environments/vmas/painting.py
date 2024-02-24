@@ -4,4 +4,4 @@ from dataclasses import dataclass, MISSING
 class TaskConfig:
     max_steps: int = MISSING
     n_agents: int = MISSING
-    n_solutions: int = MISSING
+    n_goals: int = MISSING

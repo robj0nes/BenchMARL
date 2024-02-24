@@ -19,6 +19,7 @@ class VmasTask(Task):
 
     BALANCE = None
     CONSTRUCTION = None
+    PAINTING = None
     SAMPLING = None
     NAVIGATION = None
     TRANSPORT = None
