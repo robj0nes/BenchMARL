@@ -27,7 +27,7 @@ clip_grad_val: 5
 soft_target_update: True
 # If soft_target_update is True, this is its polyak_tau
 polyak_tau: 0.005
-# If soft_target_update is False, this is the frequency of the hard trarget updates in terms of n_optimizer_steps
+# If soft_target_update is False, this is the frequency of the hard target updates in terms of n_optimizer_steps
 hard_target_update_frequency: 5
 
 # When an exploration wrapper is used. This is its initial epsilon for annealing
@@ -39,9 +39,9 @@ exploration_eps_end: 0.01
 exploration_anneal_frames: null
 
 # The maximum number of experiment iterations before the experiment terminates, exclusive with max_n_frames
-max_n_iters: null
+max_n_iters: 1000
 # Number of collected frames before ending, exclusive with max_n_iters
-max_n_frames: 3_000_000
+max_n_frames: null
 
 # Number of frames collected and each experiment iteration
 on_policy_collected_frames_per_batch: 6000
