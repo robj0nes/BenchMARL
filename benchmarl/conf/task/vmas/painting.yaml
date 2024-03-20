@@ -5,4 +5,4 @@ defaults:
 max_steps: 200
 n_agents: 4
 n_goals: 2
-position_shaping_factor: 5.0
+final_reward: 0.01

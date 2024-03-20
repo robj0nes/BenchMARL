@@ -5,3 +5,4 @@ class TaskConfig:
     max_steps: int = MISSING
     n_agents: int = MISSING
     n_goals: int = MISSING
+    final_reward: float = MISSING
