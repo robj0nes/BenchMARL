@@ -3,7 +3,7 @@ defaults:
   - vmas_painting_config
 
 max_steps: 200
-n_agents: 4
+n_agents: 2
 n_goals: 2
 final_reward: 0.01
 pos_shaping: True
