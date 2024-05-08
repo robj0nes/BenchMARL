@@ -84,16 +84,7 @@ class Qmix(Algorithm):
         ]
 
         actor_input_spec = CompositeSpec(
-            {
-                group: CompositeSpec(
-                    {
-                        "observation": self.observation_spec[group]["observation"]
-                        .clone()
-                        .to(self.device)
-                    },
-                    shape=(n_agents,),
-                )
-            }
+            {group: self.observation_spec[group].clone().to(self.device)}
         )
 
         actor_output_spec = CompositeSpec(
@@ -188,11 +179,19 @@ class Qmix(Algorithm):
         n_agents = len(self.group_map[group])
 
         if self.state_spec is not None:
-            state_shape = self.state_spec["state"].shape
-            in_keys = [(group, "chosen_action_value"), "state"]
+            global_state_key = list(self.state_spec.keys(True, True))[0]
+            state_shape = self.state_spec[global_state_key].shape
+            in_keys = [(group, "chosen_action_value"), global_state_key]
         else:
-            state_shape = self.observation_spec[group, "observation"].shape
-            in_keys = [(group, "chosen_action_value"), (group, "observation")]
+            group_observation_keys = list(self.observation_spec[group].keys(True, True))
+            if len(group_observation_keys) > 1:
+                raise ValueError(
+                    "QMIX called without a global state and multiple observation keys, currently the mixer"
+                    "takes only one observation key, please raise an issue if you need this fauture."
+                )
+            group_observation_key = group_observation_keys[0]
+            state_shape = self.observation_spec[group, group_observation_key].shape
+            in_keys = [(group, "chosen_action_value"), (group, group_observation_key)]
 
         mixer = TensorDictModule(
             module=QMixer(
