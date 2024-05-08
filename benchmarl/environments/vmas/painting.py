@@ -7,3 +7,4 @@ class TaskConfig:
     n_goals: int = MISSING
     final_reward: float = MISSING
     pos_shaping: bool = MISSING
+    observe_other_agents: bool = MISSING
