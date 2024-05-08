@@ -7,7 +7,6 @@
 from dataclasses import dataclass, MISSING
 from typing import Dict, Iterable, Optional, Tuple, Type, Union
 
-import torch
 from tensordict import TensorDictBase
 from tensordict.nn import NormalParamExtractor, TensorDictModule, TensorDictSequential
 from torch.distributions import Categorical
@@ -18,13 +17,7 @@ from torchrl.modules import (
     ProbabilisticActor,
     TanhNormal,
 )
-from torchrl.objectives import (
-    ClipPPOLoss,
-    DiscreteSACLoss,
-    LossModule,
-    SACLoss,
-    ValueEstimators,
-)
+from torchrl.objectives import DiscreteSACLoss, LossModule, SACLoss, ValueEstimators
 
 from benchmarl.algorithms.common import Algorithm, AlgorithmConfig
 from benchmarl.models.common import ModelConfig
@@ -149,7 +142,7 @@ class Isac(Algorithm):
         )
         return loss_module, True
 
-    def _get_parameters(self, group: str, loss: ClipPPOLoss) -> Dict[str, Iterable]:
+    def _get_parameters(self, group: str, loss: LossModule) -> Dict[str, Iterable]:
         items = {
             "loss_actor": list(loss.actor_network_params.flatten_keys().values()),
             "loss_qvalue": list(loss.qvalue_network_params.flatten_keys().values()),
@@ -172,16 +165,7 @@ class Isac(Algorithm):
             ]
 
         actor_input_spec = CompositeSpec(
-            {
-                group: CompositeSpec(
-                    {
-                        "observation": self.observation_spec[group]["observation"]
-                        .clone()
-                        .to(self.device)
-                    },
-                    shape=(n_agents,),
-                )
-            }
+            {group: self.observation_spec[group].clone().to(self.device)}
         )
 
         actor_output_spec = CompositeSpec(
@@ -298,16 +282,7 @@ class Isac(Algorithm):
         n_actions = self.action_spec[group, "action"].space.n
 
         critic_input_spec = CompositeSpec(
-            {
-                group: CompositeSpec(
-                    {
-                        "observation": self.observation_spec[group]["observation"]
-                        .clone()
-                        .to(self.device)
-                    },
-                    shape=(n_agents,),
-                )
-            }
+            {group: self.observation_spec[group].clone().to(self.device)}
         )
 
         critic_output_spec = CompositeSpec(
@@ -340,27 +315,11 @@ class Isac(Algorithm):
         n_agents = len(self.group_map[group])
         modules = []
 
-        modules.append(
-            TensorDictModule(
-                lambda obs, action: torch.cat([obs, action], dim=-1),
-                in_keys=[(group, "observation"), (group, "action")],
-                out_keys=[(group, "obs_action")],
-            )
-        )
         critic_input_spec = CompositeSpec(
             {
-                group: CompositeSpec(
-                    {
-                        "obs_action": UnboundedContinuousTensorSpec(
-                            shape=(
-                                n_agents,
-                                self.observation_spec[group, "observation"].shape[-1]
-                                + self.action_spec[group, "action"].shape[-1],
-                            )
-                        )
-                    },
-                    shape=(n_agents,),
-                )
+                group: self.observation_spec[group]
+                .clone()
+                .update(self.action_spec[group])
             }
         )
 

@@ -96,13 +96,13 @@ class Task(Enum):
             num_envs (int): The number of envs that should be in the batch_size of the returned env.
                 In vectorized envs, this can be used to set the number of batched environments.
                 If your environment is not vectorized, you can just ignore this, and it will be
-                wrapped in a torchrl.envs.SerialEnv with num_envs automatically.
+                wrapped in a :class:`torchrl.envs.SerialEnv` with num_envs automatically.
             continuous_actions (bool): Whether your environment should have continuous or discrete actions.
                 If your environment does not support both, ignore this and refer to the supports_x_actions methods.
             seed (optional, int): The seed of your env
             device (str): the device of your env, you can pass this to any torchrl env constructor
 
-        Returns: a function that takes no arguments and returns a torchrl.envs.EnvBase object
+        Returns: a function that takes no arguments and returns a :class:`torchrl.envs.EnvBase` object
 
         """
         raise NotImplementedError
@@ -156,10 +156,31 @@ class Task(Enum):
     def observation_spec(self, env: EnvBase) -> CompositeSpec:
         """
         A spec for the observation.
-        Must be a CompositeSpec with one (group_name, "observation") entry per group.
+        Must be a CompositeSpec with as many entries as needed nested under the ``group_name`` key.
 
         Args:
             env (EnvBase): An environment created via self.get_env_fun
+
+        Examples:
+            >>> print(task.observation_spec(env))
+            CompositeSpec(
+                agents: CompositeSpec(
+                    observation: CompositeSpec(
+                        image: UnboundedDiscreteTensorSpec(
+                            shape=torch.Size([8, 88, 88, 3]),
+                            space=ContinuousBox(
+                                low=Tensor(shape=torch.Size([8, 88, 88, 3]), device=cpu, dtype=torch.int64, contiguous=True),
+                                high=Tensor(shape=torch.Size([8, 88, 88, 3]), device=cpu, dtype=torch.int64, contiguous=True)),
+                            device=cpu,
+                            dtype=torch.uint8,
+                            domain=discrete),
+                        array: UnboundedContinuousTensorSpec(
+                            shape=torch.Size([8, 3]),
+                            space=None,
+                            device=cpu,
+                            dtype=torch.float32,
+                            domain=continuous), device=cpu, shape=torch.Size([8])), device=cpu, shape=torch.Size([8])), device=cpu, shape=torch.Size([]))
+
 
         """
         raise NotImplementedError
@@ -179,7 +200,7 @@ class Task(Enum):
     def state_spec(self, env: EnvBase) -> Optional[CompositeSpec]:
         """
         A spec for the state.
-        If provided, must be a CompositeSpec with one "state" entry.
+        If provided, must be a CompositeSpec with one entry.
 
         Args:
             env (EnvBase): An environment created via self.get_env_fun
@@ -241,6 +262,28 @@ class Task(Enum):
         else:
             reset_keys = env.reset_keys
         return RewardSum(reset_keys=reset_keys)
+
+    def get_env_transforms(self, env: EnvBase) -> List[Transform]:
+        """
+        Returns a list of :class:`torchrl.envs.Transform` to be applied to the env.
+
+        Args:
+            env (EnvBase): An environment created via self.get_env_fun
+
+
+        """
+        return []
+
+    def get_replay_buffer_transforms(self, env: EnvBase) -> List[Transform]:
+        """
+        Returns a list of :class:`torchrl.envs.Transform` to be applied to the :class:`torchrl.data.ReplayBuffer`.
+
+        Args:
+            env (EnvBase): An environment created via self.get_env_fun
+
+
+        """
+        return []
 
     @staticmethod
     def render_callback(experiment, env: EnvBase, data: TensorDictBase):
