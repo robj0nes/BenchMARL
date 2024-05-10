@@ -8,3 +8,5 @@ class TaskConfig:
     final_reward: float = MISSING
     pos_shaping: bool = MISSING
     observe_other_agents: bool = MISSING
+    complexity: str = MISSING
+    dim_c: int = MISSING
