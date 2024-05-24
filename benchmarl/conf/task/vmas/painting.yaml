@@ -3,8 +3,14 @@ defaults:
   - vmas_painting_config
 
 max_steps: 200
-n_agents: 2
-n_goals: 2
-final_reward: 0.01
-pos_shaping: True
+n_agents: 3
+n_goals: 3
 observe_other_agents: False
+coms_proximity: 1
+
+final_pos_reward: 0.2
+final_mix_reward: 0.1
+pos_shaping: True
+mix_shaping: True
+
+task_type: "nav"
