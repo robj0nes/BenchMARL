@@ -15,7 +15,7 @@ prefer_continuous_actions: True
 # Discount factor
 gamma: 0.9
 # Learning rate
-lr: 0.00005
+lr: 0.0005
 # The epsilon parameter of the adam optimizer
 adam_eps: 0.000001
 # Clips grad norm if true and clips grad value if false
@@ -93,4 +93,4 @@ save_folder: null
 restore_file: null
 # Interval for experiment saving in terms of collected frames (this should be a multiple of on/off_policy_collected_frames_per_batch).
 # Set it to 0 to disable checkpointing
-checkpoint_interval: 300_000
+checkpoint_interval: 600_000

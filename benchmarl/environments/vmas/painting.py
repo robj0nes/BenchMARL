@@ -4,6 +4,8 @@ from typing import Literal
 
 @dataclass
 class TaskConfig:
+    task_type: str = MISSING
+
     max_steps: int = MISSING
     n_agents: int = MISSING
     n_goals: int = MISSING
@@ -14,4 +16,7 @@ class TaskConfig:
     final_mix_reward: float = MISSING
     pos_shaping: bool = MISSING
     mix_shaping: bool = MISSING
-    task_type: str = MISSING
+
+    agent_collision_penalty: float = MISSING
+    env_collision_penalty: float = MISSING
+
