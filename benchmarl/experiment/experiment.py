@@ -421,6 +421,7 @@ class Experiment(CallbackNotifier):
 
     def _setup_algorithm(self):
         self.algorithm = self.algorithm_config.get_algorithm(experiment=self)
+        test = self.group_map
         self.replay_buffers = {
             group: self.algorithm.get_replay_buffer(
                 group=group,

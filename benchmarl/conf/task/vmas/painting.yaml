@@ -9,6 +9,12 @@ max_steps: 200
 n_agents: 3
 n_goals: 3
 
+group_map: {
+             'nav_agents': ['agent_nav_0', 'agent_nav_1', 'agent_nav_2'],
+#             'mix_agents': ['agent_mix_0', 'agent_mix_1', 'agent_mix_2'],
+             'coms': ['coms_network']
+}
+
 # Whether other agents positions are included in the observation space.
 observe_other_agents: False
 # Do agents need to learn the mixing coefficients to produce their goal.
@@ -19,11 +25,13 @@ learn_coms: True
 # TODO: If we extend to higher dimensionality (>8) use a better metric than L2.
 mixing_thresh: 0.1
 
+# Are coms learnt as a separate network.
+isolated_coms: True
 # Minimum L2 dist between agents to be able to communicate.
 coms_proximity: 2
 
 # Fixed, per-step reward when all agents have achieved the sub-tasks.
-final_pos_reward: 0.2
+final_pos_reward: 0.5
 final_mix_reward: 0.1
 
 # Determines if final rewards are given when all agents have achieved task (False)
