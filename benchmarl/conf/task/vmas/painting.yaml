@@ -3,36 +3,50 @@ defaults:
   - vmas_painting_config
 
 # Defines the sub-task implementation. One of ['nav, 'mix', 'full']
-task_type: "mix"
+task_type: "full"
 
 max_steps: 200
 n_agents: 3
 n_goals: 3
 
+# Do agents have a multi-head (ie. multi-agent per robot)
+# If true include in group map.
+multi_head: True
+
+# TODO: Remove in final version - doesn't add value.
+# Are coms learnt as a separate network. If true, include in group map.
+isolated_coms: False
+
+# NOTE: Use if coms network is isolated
+#group_map: {
+#             'agents': ['agent_0', 'agent_1', 'agent_2'],
+#             'coms': ['coms_network']
+#}
+
+# NOTE: Use if multi-head agent.
 group_map: {
-             'nav_agents': ['agent_nav_0', 'agent_nav_1', 'agent_nav_2'],
-#             'mix_agents': ['agent_mix_0', 'agent_mix_1', 'agent_mix_2'],
-             'coms': ['coms_network']
+             'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
+             'mix_agents': ['mix-agent_0', 'mix-agent_1', 'mix-agent_2'],
 }
 
 # Whether other agents positions are included in the observation space.
 observe_other_agents: False
+
 # Do agents need to learn the mixing coefficients to produce their goal.
 learn_mix: True
 learn_coms: True
 
-# Maximum euclidean distance from goal to consider payload mix successful.
 # TODO: If we extend to higher dimensionality (>8) use a better metric than L2.
+# Maximum euclidean distance from goal to consider payload mix successful.
+#  NOTE: values higher than 0.1 result in poor solution matches.
 mixing_thresh: 0.1
 
-# Are coms learnt as a separate network.
-isolated_coms: True
 # Minimum L2 dist between agents to be able to communicate.
 coms_proximity: 2
 
 # Fixed, per-step reward when all agents have achieved the sub-tasks.
-final_pos_reward: 0.5
-final_mix_reward: 0.1
+final_pos_reward: 0.2
+final_mix_reward: 0.2
 
 # Determines if final rewards are given when all agents have achieved task (False)
 #  or as n/total for each n agents achieving task (True).

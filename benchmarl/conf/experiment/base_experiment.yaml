@@ -77,12 +77,12 @@ render: True
 # Frequency of evaluation in terms of collected frames (this should be a multiple of on/off_policy_collected_frames_per_batch)
 evaluation_interval: 60_000
 # Number of episodes that evaluation is run on
-evaluation_episodes: 10
+evaluation_episodes: 100
 # If True, when stochastic policies are evaluated, their mode is taken, otherwise, if False, they are sampled
 evaluation_deterministic_actions: True
 
 # List of loggers to use, options are: wandb, csv, tensorboard, mflow
-loggers: []
+loggers: [wandb]
 # Create a json folder as part of the output in the format of marl-eval
 create_json: True
 
