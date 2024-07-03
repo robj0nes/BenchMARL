@@ -32,6 +32,10 @@ group_map: {
 # Whether other agents positions are included in the observation space.
 observe_other_agents: False
 
+# Is agent knowledge vector randomly generated, or evenly distributed.
+# NOTE: Even distribution only implemented for 3 agents (RGB)
+random_knowledge: True
+
 # Do agents need to learn the mixing coefficients to produce their goal.
 learn_mix: True
 learn_coms: True
