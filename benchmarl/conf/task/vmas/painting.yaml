@@ -5,7 +5,8 @@ defaults:
 # Defines the sub-task implementation. One of ['nav, 'mix', 'full']
 task_type: "full"
 
-max_steps: 200
+# Defines the number of steps in each run, and thus the evaluation period.
+max_steps: 300
 n_agents: 3
 n_goals: 3
 
@@ -13,24 +14,21 @@ n_goals: 3
 # If true include in group map.
 multi_head: True
 
-# TODO: Remove in final version - doesn't add value.
-# Are coms learnt as a separate network. If true, include in group map.
-isolated_coms: False
-
-# NOTE: Use if coms network is isolated
-#group_map: {
-#             'agents': ['agent_0', 'agent_1', 'agent_2'],
-#             'coms': ['coms_network']
-#}
-
 # NOTE: Use if multi-head agent.
 group_map: {
-             'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
-             'mix_agents': ['mix-agent_0', 'mix-agent_1', 'mix-agent_2'],
+             'nav_agents': [ 'nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
+             'mix_agents': [ 'mix-agent_0', 'mix-agent_1', 'mix-agent_2'],
+#              'nav_agents': [ 'nav-agent_0', 'nav-agent_1', 'nav-agent_2', 'nav-agent_3'],
+#              'mix_agents': [ 'mix-agent_0', 'mix-agent_1', 'mix-agent_2', 'mix-agent_3'],
+#             'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2', 'nav-agent_3', 'nav-agent_4', 'nav-agent_5'],
+#             'mix_agents': ['mix-agent_0', 'mix-agent_1', 'mix-agent_2', 'mix-agent_3', 'mix-agent_4', 'mix-agent_5'],
 }
 
 # Whether other agents positions are included in the observation space.
 observe_other_agents: False
+
+# Is agent knowledge vector randomly generated, or evenly distributed.
+random_knowledge: False
 
 # Do agents need to learn the mixing coefficients to produce their goal.
 learn_mix: True
@@ -42,11 +40,12 @@ learn_coms: True
 mixing_thresh: 0.1
 
 # Minimum L2 dist between agents to be able to communicate.
-coms_proximity: 2
+coms_proximity: 5
 
 # Fixed, per-step reward when all agents have achieved the sub-tasks.
 final_pos_reward: 0.2
 final_mix_reward: 0.2
+goal_completion_reward: 0
 
 # Determines if final rewards are given when all agents have achieved task (False)
 #  or as n/total for each n agents achieving task (True).
@@ -61,5 +60,3 @@ mix_shaping_factor: 1
 # Penalties for agent collisions
 agent_collision_penalty: -0.2
 env_collision_penalty: -0.2
-
-

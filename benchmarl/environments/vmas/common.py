@@ -26,9 +26,18 @@ class VmasTask(Task):
     REVERSE_TRANSPORT = None
     WHEEL = None
     DISPERSION = None
+    MULTI_GIVE_WAY = None
     DROPOUT = None
     GIVE_WAY = None
     WIND_FLOCKING = None
+    PASSAGE = None
+    JOINT_PASSAGE = None
+    JOINT_PASSAGE_SIZE = None
+    BALL_PASSAGE = None
+    BALL_TRAJECTORY = None
+    BUZZ_WIRE = None
+    FLOCKING = None
+    DISCOVERY = None
     SIMPLE_ADVERSARY = None
     SIMPLE_CRYPTO = None
     SIMPLE_PUSH = None
@@ -37,7 +46,6 @@ class VmasTask(Task):
     SIMPLE_SPREAD = None
     SIMPLE_TAG = None
     SIMPLE_WORLD_COMM = None
-    JOINT_PASSAGE = None
 
     def get_env_fun(
         self,

@@ -6,11 +6,15 @@ defaults:
 sampling_device: "cpu"
 # The device for training (e.g. cuda)
 train_device: "cpu"
+# The device for the replay buffer of off-policy algorithms (e.g. cuda)
+buffer_device: "cpu"
 
 # Whether to share the parameters of the policy within agent groups
 share_policy_params: True
 # If an algorithm and an env support both continuous and discrete actions, what should be preferred
 prefer_continuous_actions: True
+# If False collection is done using a collector (under no grad). If True, collection is done with gradients.
+collect_with_grad: False
 
 # Discount factor
 gamma: 0.9
@@ -43,11 +47,11 @@ max_n_iters: 1000
 # Number of collected frames before ending, exclusive with max_n_iters
 max_n_frames: null
 
-# Number of frames collected and each experiment iteration
-on_policy_collected_frames_per_batch: 6000
+# Number of frames collected at each experiment iteration
+on_policy_collected_frames_per_batch: 6_000
 # Number of environments used for collection
 # If the environment is vectorized, this will be the number of batched environments.
-# Otherwise batching will be simulated and each env will be run sequentially.
+# Otherwise, batching will be simulated and each env will be run sequentially.
 on_policy_n_envs_per_worker: 10
 # This is the number of times collected_frames_per_batch will be split into minibatches and trained
 on_policy_n_minibatch_iters: 45
@@ -55,11 +59,11 @@ on_policy_n_minibatch_iters: 45
 # and it will be split into minibatches with this number of frames for training
 on_policy_minibatch_size: 400
 
-# Number of frames collected and each experiment iteration
-off_policy_collected_frames_per_batch: 6000
+# Number of frames collected at each experiment iteration
+off_policy_collected_frames_per_batch: 6_000
 # Number of environments used for collection
 # If the environment is vectorized, this will be the number of batched environments.
-# Otherwise batching will be simulated and each env will be run sequentially.
+# Otherwise, batching will be simulated and each env will be run sequentially.
 off_policy_n_envs_per_worker: 10
 # This is the number of times off_policy_train_batch_size will be sampled from the buffer and trained over.
 off_policy_n_optimizer_steps: 1000
@@ -82,15 +86,24 @@ evaluation_episodes: 100
 evaluation_deterministic_actions: True
 
 # List of loggers to use, options are: wandb, csv, tensorboard, mflow
-loggers: [wandb]
+loggers: []
 # Create a json folder as part of the output in the format of marl-eval
 create_json: True
 
 # Absolute path to the folder where the experiment will log.
 # If null, this will default to the hydra output dir (if using hydra) or to the current folder when the script is run (if not).
 save_folder: null
+
 # Absolute path to a checkpoint file where the experiment was saved. If null the experiment is started fresh.
 restore_file: null
+#restore_file: /Users/vd20433/FARSCOPE/FirstYearProject/Checkpoints/Full Task/pre-trained_3A-3G_54k/checkpoints/pre-trained_checkpoint_5400000.pt
+
 # Interval for experiment saving in terms of collected frames (this should be a multiple of on/off_policy_collected_frames_per_batch).
 # Set it to 0 to disable checkpointing
-checkpoint_interval: 600_000
+checkpoint_interval: 6_000
+# Whether to checkpoint when the experiment is done
+checkpoint_at_end: False
+# How many checkpoints to keep. As new checkpoints are taken, temporally older checkpoints are deleted to keep this number of
+# checkpoints. The checkpoint at the end is included in this number. Set to `null` to keep all checkpoints.
+keep_checkpoints_num: 3
+
