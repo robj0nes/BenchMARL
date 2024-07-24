@@ -839,7 +839,7 @@ class Experiment(CallbackNotifier):
                     state_dict[f"buffer_{group}"]
                 )
         if not self.config.collect_with_grad:
-            self.collector.load_state_dict(state_dict["collector"], strict=False)
+            self.collector.load_state_dict(state_dict["collector"])
         self.total_time = state_dict["state"]["total_time"]
         self.total_frames = state_dict["state"]["total_frames"]
         self.n_iters_performed = state_dict["state"]["n_iters_performed"]
