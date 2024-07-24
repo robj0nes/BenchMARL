@@ -1,0 +1,20 @@
+defaults:
+  # Here is a list of layers for this model
+  # You can use configs from the "layers" folder
+  - layers@layers.l1: mlp
+  - layers@layers.l2: gnn
+  - layers@layers.l3: mlp
+  - _self_
+
+# A list of ints for the intermediate sizes between layers
+# Should be of length = num_layers - 1
+intermediate_sizes: [5,3]
+
+# You can override your layers for example like this
+layers:
+ l1:
+   num_cells: [8]
+ l2:
+   gnn_class: torch_geometric.nn.conv.GATv2Conv
+ l3:
+   num_cells: [6]

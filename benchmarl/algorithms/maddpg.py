@@ -26,7 +26,7 @@ class Maddpg(Algorithm):
     """Multi Agent DDPG (from `https://arxiv.org/abs/1706.02275 <https://arxiv.org/abs/1706.02275>`__).
 
     Args:
-        share_param_critic (bool): Whether to share the parameters of the critics withing agent groups
+        share_param_critic (bool): Whether to share the parameters of the critics within agent groups
         loss_function (str): loss function for the value discrepancy. Can be one of "l1", "l2" or "smooth_l1".
         delay_value (bool): whether to separate the target value networks from the value networks used for
             data collection.
