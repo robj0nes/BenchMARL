@@ -28,7 +28,7 @@ group_map: {
 observe_other_agents: False
 
 # Is agent knowledge vector randomly generated, or evenly distributed.
-random_knowledge: False
+random_knowledge: True
 
 # Do agents need to learn the mixing coefficients to produce their goal.
 learn_mix: True
