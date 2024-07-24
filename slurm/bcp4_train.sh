@@ -27,4 +27,5 @@ echo Algorithm = "${ALGO}"
 echo Algorithm Config = "${ALGO_CONF}"
 echo Experiment Config = "${EXP}"
 
-python benchmarl/run.py "${CONFIG}" "${EXP}" "${MODEL}" algorithm="${ALGO}" "${ALGO_CONF}" task=vmas/painting 
+python benchmarl/run.py experiment=bcp4_experiment model=layers/gnn algorithm=maddpg task=vmas/painting
+# python benchmarl/run.py "${CONFIG}" "${EXP}" "${MODEL}" algorithm="${ALGO}" "${ALGO_CONF}" task=vmas/painting 

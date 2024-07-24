@@ -2,7 +2,7 @@ export CONFIG='experiment=bcp4_experiment'
 export MODEL='model=layers/gnn'
 
 # for ALGO in mappo maddpg masac ippo iddpg iql isac qmix vdn
-for ALGO in mappo
+for ALGO in maddpg
 do
   for SHARE_PARAMS in True False
   do

@@ -14,7 +14,7 @@ share_policy_params: True
 # If an algorithm and an env support both continuous and discrete actions, what should be preferred
 prefer_continuous_actions: True
 # If False collection is done using a collector (under no grad). If True, collection is done with gradients.
-collect_with_grad: False
+collect_with_grad: True
 
 # Discount factor
 gamma: 0.9
@@ -86,7 +86,7 @@ evaluation_episodes: 100
 evaluation_deterministic_actions: True
 
 # List of loggers to use, options are: wandb, csv, tensorboard, mflow
-loggers: [wandb]
+loggers: []
 # Create a json folder as part of the output in the format of marl-eval
 create_json: True
 
