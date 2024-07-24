@@ -79,7 +79,7 @@ evaluation: True
 # Whether to render the evaluation (if rendering is available)
 render: True
 # Frequency of evaluation in terms of collected frames (this should be a multiple of on/off_policy_collected_frames_per_batch)
-evaluation_interval: 60_000
+evaluation_interval: 6_000
 # Number of episodes that evaluation is run on
 evaluation_episodes: 100
 # If True, when stochastic policies are evaluated, their mode is taken, otherwise, if False, they are sampled
@@ -100,10 +100,11 @@ restore_file: null
 
 # Interval for experiment saving in terms of collected frames (this should be a multiple of on/off_policy_collected_frames_per_batch).
 # Set it to 0 to disable checkpointing
+
 checkpoint_interval: 6_000
 # Whether to checkpoint when the experiment is done
+
 checkpoint_at_end: False
 # How many checkpoints to keep. As new checkpoints are taken, temporally older checkpoints are deleted to keep this number of
 # checkpoints. The checkpoint at the end is included in this number. Set to `null` to keep all checkpoints.
 keep_checkpoints_num: 3
-
