@@ -10,7 +10,7 @@ train_device: "cpu"
 buffer_device: "cpu"
 
 # Whether to share the parameters of the policy within agent groups
-share_policy_params: True
+share_policy_params: False
 # If an algorithm and an env support both continuous and discrete actions, what should be preferred
 prefer_continuous_actions: True
 # If False collection is done using a collector (under no grad). If True, collection is done with gradients.
@@ -19,7 +19,7 @@ collect_with_grad: False
 # Discount factor
 gamma: 0.9
 # Learning rate
-lr: 0.0005
+lr: 0.00005
 # The epsilon parameter of the adam optimizer
 adam_eps: 0.000001
 # Clips grad norm if true and clips grad value if false
@@ -79,7 +79,7 @@ evaluation: True
 # Whether to render the evaluation (if rendering is available)
 render: True
 # Frequency of evaluation in terms of collected frames (this should be a multiple of on/off_policy_collected_frames_per_batch)
-evaluation_interval: 6_000
+evaluation_interval: 60_000
 # Number of episodes that evaluation is run on
 evaluation_episodes: 100
 # If True, when stochastic policies are evaluated, their mode is taken, otherwise, if False, they are sampled

@@ -15,6 +15,7 @@ class TaskConfig:
 
     observe_other_agents: bool = MISSING
     random_knowledge: bool = MISSING
+    random_all_dims: bool = MISSING
     learn_mix: bool = MISSING
     learn_coms: bool = MISSING
     per_agent_final: bool = MISSING
