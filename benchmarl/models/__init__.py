@@ -8,6 +8,8 @@ from .cnn import Cnn, CnnConfig
 from .common import Model, ModelConfig, SequenceModel, SequenceModelConfig
 from .deepsets import Deepsets, DeepsetsConfig
 from .gnn import Gnn, GnnConfig
+from .gru import Gru, GruConfig
+from .lstm import Lstm, LstmConfig
 from .mlp import Mlp, MlpConfig
 
 classes = [
@@ -19,6 +21,10 @@ classes = [
     "CnnConfig",
     "Deepsets",
     "DeepsetsConfig",
+    "Gru",
+    "GruConfig",
+    "Lstm",
+    "LstmConfig",
 ]
 
 model_config_registry = {
@@ -26,4 +32,6 @@ model_config_registry = {
     "gnn": GnnConfig,
     "cnn": CnnConfig,
     "deepsets": DeepsetsConfig,
+    "gru": GruConfig,
+    "lstm": LstmConfig,
 }
