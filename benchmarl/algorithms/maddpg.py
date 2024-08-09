@@ -79,7 +79,7 @@ class Maddpg(Algorithm):
             return loss_module, True
         else:
             raise NotImplementedError(
-                "MADDPG is not compatible with discrete actions yet"
+                "maddpg is not compatible with discrete actions yet"
             )
 
     def _get_parameters(self, group: str, loss: LossModule) -> Dict[str, Iterable]:
@@ -135,7 +135,7 @@ class Maddpg(Algorithm):
             return policy
         else:
             raise NotImplementedError(
-                "MADDPG is not compatible with discrete actions yet"
+                "maddpg is not compatible with discrete actions yet"
             )
 
     def _get_policy_for_collection(

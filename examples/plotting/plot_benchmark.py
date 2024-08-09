@@ -8,31 +8,35 @@ import os
 from pathlib import Path
 from typing import List
 
+import pandas as pd
+
 from benchmarl.eval_results import load_and_merge_json_dicts, Plotting
 
 from matplotlib import pyplot as plt
 
 
 def run_benchmark() -> List[str]:
-    from benchmarl.algorithms import MappoConfig, QmixConfig
+    from benchmarl.algorithms import MaddpgConfig, MappoConfig, QmixConfig
     from benchmarl.benchmark import Benchmark
     from benchmarl.environments import VmasTask
     from benchmarl.experiment import ExperimentConfig
+    from benchmarl.models.gnn import GnnConfig
     from benchmarl.models.mlp import MlpConfig
 
     # Configure experiment
     experiment_config = ExperimentConfig.get_from_yaml()
     experiment_config.save_folder = Path(os.path.dirname(os.path.realpath(__file__)))
     experiment_config.loggers = []
-    experiment_config.max_n_iters = 100
+    experiment_config.max_n_iters = 1500
 
     # Configure benchmark
-    tasks = [VmasTask.NAVIGATION.get_from_yaml()]
+    tasks = [VmasTask.PAINTING.get_from_yaml()]
     algorithm_configs = [
+        MaddpgConfig.get_from_yaml(),
         MappoConfig.get_from_yaml(),
         QmixConfig.get_from_yaml(),
     ]
-    model_config = MlpConfig.get_from_yaml()
+    model_config = GnnConfig.get_from_yaml()
     critic_model_config = MlpConfig.get_from_yaml()
 
     benchmark = Benchmark(
@@ -58,9 +62,30 @@ def run_benchmark() -> List[str]:
 
 if __name__ == "__main__":
     # Uncomment this to rerun the benchmark that generates the files
-    experiments_json_files = run_benchmark()
+    # experiments_json_files = run_benchmark()
+
+    # Otherwise create a list of experiment json files.
+    all_files = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser("/Users/vd20433/FARSCOPE/FirstYearProject/BenchMARL/experiments/algorithms/maddpg")) for f in fn]
+    experiments_json_files = [x for x in all_files if '.json' in x and 'wandb' not in x]
+    mean_len_csvs = [pd.read_csv(x) for x in all_files if '.csv' in x]
+    mean_lens = []
+    for csv in mean_len_csvs:
+        means = csv.iloc[:, 1].to_list()
+        total_mean = sum(means) / len(means)
+        mean_lens.append(csv.iloc[:, 1].to_list() + [total_mean])
 
     raw_dict = load_and_merge_json_dicts(experiments_json_files)
+    for i, key in enumerate(raw_dict["vmas"]["painting"].keys()):
+        for j, step in enumerate(raw_dict["vmas"]["painting"][key]["seed_0"].keys()):
+            if 'absolute' not in step:
+                for return_type in raw_dict["vmas"]["painting"][key]["seed_0"][step]:
+                    if 'step_count' not in return_type:
+                        vals = raw_dict["vmas"]["painting"][key]["seed_0"][step][return_type]
+                        raw_dict["vmas"]["painting"][key]["seed_0"][step][return_type] = \
+                            [x / (mean_lens[i][j-1] / mean_lens[i][0]) for x in vals]
+            else:
+                for return_type in raw_dict["vmas"]["painting"][key]["seed_0"][step]:
+                    raw_dict["vmas"]["painting"][key]["seed_0"][step][return_type][0] /= (mean_lens[i][-1] / mean_lens[i][0])
 
     # Load and process experiment outputs
     # raw_dict = load_and_merge_json_dicts(experiments_json_files)
@@ -81,10 +106,10 @@ if __name__ == "__main__":
         sample_effeciency_matrix=sample_efficiency_matrix
     )
     Plotting.task_sample_efficiency_curves(
-        processed_data=processed_data, env="vmas", task="navigation"
+        processed_data=processed_data, env="vmas", task="painting"
     )
     Plotting.probability_of_improvement(
         environment_comparison_matrix,
-        algorithms_to_compare=[["qmix", "mappo"]],
+        algorithms_to_compare=[["maddpg SPP=F SPC=F", "maddpg SPP=T SPC=T"]],
     )
     plt.show()

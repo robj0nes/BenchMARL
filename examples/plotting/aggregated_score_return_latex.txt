@@ -1,0 +1,80 @@
+\begin{tabular}{ll}
+ & MADDPG \\
+Median & 1.0 [1.0, 1.0] \\
+IQM & 1.0 [1.0, 1.0] \\
+Mean & 1.0 [1.0, 1.0] \\
+Optimality Gap & 0.0 [0.0, 0.0] \\
+\end{tabular}
+
+\begin{tabular}{ll}
+ & MADDPG \\
+Median & 1.0 [1.0, 1.0] \\
+IQM & 1.0 [1.0, 1.0] \\
+Mean & 1.0 [1.0, 1.0] \\
+Optimality Gap & 0.0 [0.0, 0.0] \\
+\end{tabular}
+
+\begin{tabular}{llll}
+ & MADDPG_1 & MADDPG_2 & MADDPG_0 \\
+Median & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+IQM & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+Mean & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+Optimality Gap & 0.0 [0.0, 0.0] & 0.0 [0.0, 0.0] & 0.0 [0.0, 0.0] \\
+\end{tabular}
+
+\begin{tabular}{llll}
+ & MADDPG SPP=T SPC=T & MADDPG SPP=F SPC=T & MADDPG SPP=F SPC=F \\
+Median & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+IQM & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+Mean & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+Optimality Gap & 0.0 [0.0, 0.0] & 0.0 [0.0, 0.0] & 0.0 [0.0, 0.0] \\
+\end{tabular}
+
+\begin{tabular}{llll}
+ & MADDPG SPP=T SPC=T & MADDPG SPP=F SPC=T & MADDPG SPP=F SPC=F \\
+Median & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+IQM & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+Mean & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] & 1.0 [1.0, 1.0] \\
+Optimality Gap & 0.0 [0.0, 0.0] & 0.0 [0.0, 0.0] & 0.0 [0.0, 0.0] \\
+\end{tabular}
+
+\begin{tabular}{llll}
+ & MADDPG SPP=T SPC=T & MADDPG SPP=F SPC=T & MADDPG SPP=F SPC=F \\
+Median & 0.43 [0.43, 0.43] & 0.43 [0.43, 0.43] & 0.43 [0.43, 0.43] \\
+IQM & 0.43 [0.43, 0.43] & 0.43 [0.43, 0.43] & 0.43 [0.43, 0.43] \\
+Mean & 0.43 [0.43, 0.43] & 0.43 [0.43, 0.43] & 0.43 [0.43, 0.43] \\
+Optimality Gap & 0.57 [0.57, 0.57] & 0.57 [0.57, 0.57] & 0.57 [0.57, 0.57] \\
+\end{tabular}
+
+\begin{tabular}{llll}
+ & MADDPG SPP=T SPC=T & MADDPG SPP=F SPC=T & MADDPG SPP=F SPC=F \\
+Median & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+IQM & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+Mean & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+Optimality Gap & 0.4 [0.4, 0.4] & 0.41 [0.41, 0.41] & 0.37 [0.37, 0.37] \\
+\end{tabular}
+
+\begin{tabular}{llll}
+ & MADDPG SPP=T SPC=T & MADDPG SPP=F SPC=T & MADDPG SPP=F SPC=F \\
+Median & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+IQM & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+Mean & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+Optimality Gap & 0.4 [0.4, 0.4] & 0.41 [0.41, 0.41] & 0.37 [0.37, 0.37] \\
+\end{tabular}
+
+\begin{tabular}{llll}
+ & MADDPG SPP=T SPC=T & MADDPG SPP=F SPC=T & MADDPG SPP=F SPC=F \\
+Median & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+IQM & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+Mean & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+Optimality Gap & 0.4 [0.4, 0.4] & 0.41 [0.41, 0.41] & 0.37 [0.37, 0.37] \\
+\end{tabular}
+
+\begin{tabular}{llll}
+ & MADDPG SPP=T SPC=T & MADDPG SPP=F SPC=T & MADDPG SPP=F SPC=F \\
+Median & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+IQM & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+Mean & 0.6 [0.6, 0.6] & 0.59 [0.59, 0.59] & 0.63 [0.63, 0.63] \\
+Optimality Gap & 0.4 [0.4, 0.4] & 0.41 [0.41, 0.41] & 0.37 [0.37, 0.37] \\
+\end{tabular}
+

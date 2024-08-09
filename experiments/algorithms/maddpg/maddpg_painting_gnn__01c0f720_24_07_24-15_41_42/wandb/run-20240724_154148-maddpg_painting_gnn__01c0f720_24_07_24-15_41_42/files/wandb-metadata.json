@@ -1,0 +1,189 @@
+{
+    "os": "Linux-4.18.0-513.18.1.el8_9.x86_64-x86_64-with-glibc2.28",
+    "python": "3.10.0",
+    "heartbeatAt": "2024-07-24T14:41:48.998590",
+    "startedAt": "2024-07-24T14:41:48.316782",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "experiment=bcp4_experiment",
+        "experiment.share_policy_params=False",
+        "model=layers/gnn",
+        "algorithm=maddpg",
+        "algorithm.share_param_critic=False",
+        "task=vmas/painting"
+    ],
+    "state": "running",
+    "program": "/mnt/storage/scratch/vd20433/BenchMARL/benchmarl/run.py",
+    "codePathLocal": "benchmarl/run.py",
+    "codePath": "benchmarl/run.py",
+    "host": "gpu26.bc4.acrc.priv",
+    "username": "vd20433",
+    "executable": "/mnt/storage/scratch/vd20433/miniconda3/envs/benchmarl/bin/python",
+    "cpu_count": 28,
+    "cpu_count_logical": 28,
+    "cpu_freq": {
+        "current": 3298.8923214285714,
+        "min": 3300.0,
+        "max": 3300.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3179.934,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        },
+        {
+            "current": 3300.0,
+            "min": 3300.0,
+            "max": 3300.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 62.594932556152344,
+            "used": 12.205619812011719
+        }
+    },
+    "gpu": "Tesla P100-PCIE-16GB",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "Tesla P100-PCIE-16GB",
+            "memory_total": 17179869184
+        }
+    ],
+    "memory": {
+        "total": 125.18986511230469
+    }
+}

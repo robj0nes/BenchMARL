@@ -43,7 +43,7 @@ exploration_eps_end: 0.01
 exploration_anneal_frames: null
 
 # The maximum number of experiment iterations before the experiment terminates, exclusive with max_n_frames
-max_n_iters: 1000
+max_n_iters: 2000
 # Number of collected frames before ending, exclusive with max_n_iters
 max_n_frames: null
 
@@ -95,8 +95,8 @@ create_json: True
 save_folder: null
 
 # Absolute path to a checkpoint file where the experiment was saved. If null the experiment is started fresh.
-restore_file: null
-#restore_file: /Users/vd20433/FARSCOPE/FirstYearProject/Checkpoints/Full Task/pre-trained_3A-3G_54k/checkpoints/pre-trained_checkpoint_5400000.pt
+#restore_file: null
+restore_file: /Users/vd20433/FARSCOPE/FirstYearProject/BenchMARL/benchmarl/outputs/2024-08-08/13-40-34/mappo_painting_gnn__c709ada0_24_08_08-13_40_38/checkpoints/checkpoint_2772000.pt
 
 # Interval for experiment saving in terms of collected frames (this should be a multiple of on/off_policy_collected_frames_per_batch).
 # Set it to 0 to disable checkpointing

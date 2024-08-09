@@ -18,7 +18,7 @@ def get_policy():
     config_folder = current_folder / "yaml"
 
     config = ExperimentConfig.get_from_yaml(str(config_folder / "base_experiment.yaml"))
-    config.restore_file = str(current_folder / "checkpoint_6000000.pt")
+    config.restore_file = str(current_folder / "checkpoint_12000000.pt")
 
     experiment = Experiment(
         config=config,
@@ -36,36 +36,35 @@ def get_policy():
     return experiment.policy
 
 
-def run_policy(policy, nav_obs, mix_obs):
+def run_policy(policy, obs):
     n_agents = 3
 
-    # These are he input args
-    # pos = torch.zeros((1, n_agents, 2), dtype=torch.float)
-    # vel = torch.zeros((1, n_agents, 2), dtype=torch.float)
-    #
-    # goal = pos.clone()
-    #
-    # rel_goal_pos = pos - goal
-    #
-    # obs = torch.cat([pos, vel, rel_goal_pos], dim=-1)
     td = TensorDict(
-        {"nav_agents": TensorDict({"observation": nav_obs}, batch_size=[1, n_agents]),
-         "mix_agents": TensorDict({"observation": mix_obs}, batch_size=[1, n_agents])},
+        {"nav_agents": TensorDict({"observation": torch.stack(obs[:3], dim=-2)}, batch_size=[1, n_agents]),
+         "speakers": TensorDict({"observation": torch.stack(obs[3:6], dim=-2)}, batch_size=[1, n_agents]),
+         "listeners": TensorDict({"observation": torch.stack(obs[6:], dim=-2)}, batch_size=[1, n_agents])},
         batch_size=[1]
     )
     with set_exploration_type(ExplorationType.MODE), torch.no_grad():
         out_td = policy(td)
 
-    nav_actions = out_td.get(("nav_agents", "action"))
-    mix_actions = out_td.get(("mix_agents", "action"))
-    return nav_actions, mix_actions  # shape 1 (should squeeze), n_agents, 2
+    actions = ()
+    for key in td.keys():
+        actions += out_td.get((key, "action")).unbind(-2)
+
+    return actions # shape 1 (should squeeze), n_agents, 2
 
 
 if __name__ == "__main__":
     n_agents = 3
+    # group_map = {
+    #     'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
+    #     'mix_agents': ['mix-agent_0', 'mix-agent_1', 'mix-agent_2']
+    # }
     group_map = {
         'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
-        'mix_agents': ['mix-agent_0', 'mix-agent_1', 'mix-agent_2']
+        'speakers': ['speak-agent_0', 'speak-agent_1', 'speak-agent_2'],
+        'listeners': ['listen-agent_0', 'listen-agent_1', 'listen-agent_2']
     }
     policy = get_policy()
 
@@ -75,7 +74,7 @@ if __name__ == "__main__":
         continuous_actions=True,
         # Environment specific variables
         n_agents=n_agents,
-        n_goals=10,
+        n_goals=12,
         pos_shaping=True,
         mix_shaping=True,
         learn_mix=True,
@@ -90,20 +89,17 @@ if __name__ == "__main__":
         env_collision_penalty=-0.2,
         final_pos_reward=0.2,
         final_mix_reward=0.2,
-        multi_head=True
+        final_coms_reward=0.2,
+        multi_head=True,
+        random_knowledge=True,
+        random_all_dims=False,
+        coms_thresh=5
     )
     obs = env.reset()
-    nav_obs = torch.stack(obs[:3], dim=-2)
-    mix_obs = torch.stack(obs[3:], dim=-2)
     frame_list = []
     for _ in range(500):
-        nav_actions, mix_actions = run_policy(policy, nav_obs, mix_obs)
-        nav_actions = nav_actions.unbind(-2)
-        mix_actions = mix_actions.unbind(-2)
-        test = nav_actions + mix_actions
-        obs, rews, dones, info = env.step(nav_actions + mix_actions)
-        nav_obs = torch.stack(obs[:3], dim=-2)
-        mix_obs = torch.stack(obs[3:], dim=-2)
+        actions = run_policy(policy, obs)
+        obs, rews, dones, info = env.step(actions)
         frame = env.render(
             mode="rgb_array",
             visualize_when_rgb=True,

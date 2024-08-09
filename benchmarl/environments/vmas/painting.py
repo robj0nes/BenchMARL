@@ -9,6 +9,7 @@ class TaskConfig:
     max_steps: int = MISSING
     n_agents: int = MISSING
     n_goals: int = MISSING
+    goals_from_image: bool = MISSING
     multi_head: bool = MISSING
 
     group_map: Dict = MISSING
@@ -22,9 +23,11 @@ class TaskConfig:
 
     coms_proximity: float = MISSING
     mixing_thresh: float = MISSING
+    coms_thresh: float = MISSING
 
     final_pos_reward: float = MISSING
     final_mix_reward: float = MISSING
+    final_coms_reward: float = MISSING
     goal_completion_reward: float = MISSING
 
     pos_shaping: bool = MISSING

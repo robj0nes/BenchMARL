@@ -1,0 +1,138 @@
+Running on host gpu26.bc4.acrc.priv
+Wed Jul 24 15:40:58 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.15              Driver Version: 550.54.15      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla P100-PCIE-16GB           Off |   00000000:06:00.0 Off |                    0 |
+| N/A   37C    P0             29W /  250W |       0MiB /  16384MiB |      1%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Time is Wed Jul 24 15:40:58 BST 2024
+Directory is /mnt/storage/scratch/vd20433/BenchMARL
+Slurm job ID is 10180454
+This job runs on the following machines:
+gpu26
+Config = experiment=bcp4_experiment
+Model = model=layers/gnn
+Algorithm = maddpg
+Algorithm Config = algorithm.share_param_critic=True
+Experiment Config = experiment.share_policy_params=False
+
+Algorithm: maddpg, Task: vmas/painting
+
+Loaded config:
+
+experiment:
+  sampling_device: cuda
+  train_device: cuda
+  buffer_device: cuda
+  share_policy_params: false
+  prefer_continuous_actions: true
+  collect_with_grad: false
+  gamma: 0.9
+  lr: 0.0005
+  adam_eps: 1.0e-06
+  clip_grad_norm: true
+  clip_grad_val: 5.0
+  soft_target_update: true
+  polyak_tau: 0.005
+  hard_target_update_frequency: 5
+  exploration_eps_init: 0.8
+  exploration_eps_end: 0.01
+  exploration_anneal_frames: null
+  max_n_iters: 1000
+  max_n_frames: null
+  on_policy_collected_frames_per_batch: 6000
+  on_policy_n_envs_per_worker: 10
+  on_policy_n_minibatch_iters: 45
+  on_policy_minibatch_size: 400
+  off_policy_collected_frames_per_batch: 6000
+  off_policy_n_envs_per_worker: 10
+  off_policy_n_optimizer_steps: 1000
+  off_policy_train_batch_size: 128
+  off_policy_memory_size: 1000000
+  off_policy_init_random_frames: 0
+  evaluation: true
+  render: false
+  evaluation_interval: 60000
+  evaluation_episodes: 100
+  evaluation_deterministic_actions: true
+  loggers:
+  - wandb
+  create_json: true
+  save_folder: null
+  restore_file: null
+  checkpoint_interval: 600000
+  checkpoint_at_end: false
+  keep_checkpoints_num: 3
+algorithm:
+  share_param_critic: true
+  loss_function: l2
+  delay_value: true
+  use_tanh_mapping: true
+task:
+  task_type: full
+  max_steps: 300
+  n_agents: 3
+  n_goals: 3
+  multi_head: true
+  group_map:
+    nav_agents:
+    - nav-agent_0
+    - nav-agent_1
+    - nav-agent_2
+    mix_agents:
+    - mix-agent_0
+    - mix-agent_1
+    - mix-agent_2
+  observe_other_agents: false
+  random_knowledge: false
+  learn_mix: true
+  learn_coms: true
+  mixing_thresh: 0.1
+  coms_proximity: 5.0
+  final_pos_reward: 0.2
+  final_mix_reward: 0.2
+  goal_completion_reward: 0.0
+  per_agent_final: false
+  pos_shaping: true
+  pos_shaping_factor: 1.0
+  mix_shaping: true
+  mix_shaping_factor: 1.0
+  agent_collision_penalty: -0.2
+  env_collision_penalty: -0.2
+model:
+  name: gnn
+  topology: full
+  self_loops: false
+  gnn_class: torch_geometric.nn.conv.GraphConv
+  gnn_kwargs:
+    aggr: add
+  position_key: null
+  velocity_key: null
+  exclude_pos_from_node_features: false
+  edge_radius: null
+critic_model:
+  name: mlp
+  num_cells:
+  - 256
+  - 256
+  layer_class: torch.nn.Linear
+  activation_class: torch.nn.Tanh
+  activation_kwargs: null
+  norm_class: null
+  norm_kwargs: null
+seed: 0
+
