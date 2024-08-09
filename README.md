@@ -263,15 +263,11 @@ agent group. Here is a table of the models implemented in BenchMARL
 | Name                                     | Decentralized | Centralized with local inputs | Centralized with global input | 
 |------------------------------------------|:-------------:|:-----------------------------:|:-----------------------------:|
 | [MLP](benchmarl/models/mlp.py)           |      Yes      |              Yes              |              Yes              |
+| [GRU](benchmarl/models/gru.py)           |      Yes      |              Yes              |              Yes              |
+| [LSTM](benchmarl/models/lstm.py)         |      Yes      |              Yes              |              Yes              |
 | [GNN](benchmarl/models/gnn.py)           |      Yes      |              Yes              |              No               |
 | [CNN](benchmarl/models/cnn.py)           |      Yes      |              Yes              |              Yes              |
 | [Deepsets](benchmarl/models/deepsets.py) |      Yes      |              Yes              |              Yes              |
-
-And the ones that are _work in progress_
-
-| Name               | Decentralized | Centralized with local inputs | Centralized with global input | 
-|--------------------|:-------------:|:-----------------------------:|:-----------------------------:|
-| RNN (GRU and LSTM) |      Yes      |              Yes              |              Yes              | 
 
 
 ## Fine-tuned public benchmarks
@@ -487,11 +483,15 @@ as `on_batch_collected`, `on_train_end`, and `on_evaluation_end`.
 If you use BenchMARL in your research please use the following BibTeX entry:
 
 ```BibTeX
-@article{bettini2023benchmarl,
-      title={BenchMARL: Benchmarking Multi-Agent Reinforcement Learning},
-      author={Matteo Bettini and Amanda Prorok and Vincent Moens},
-      year={2023},
-      journal={arXiv preprint arXiv:2312.01472},
+@article{bettini2024benchmarl,
+  author  = {Matteo Bettini and Amanda Prorok and Vincent Moens},
+  title   = {BenchMARL: Benchmarking Multi-Agent Reinforcement Learning},
+  journal = {Journal of Machine Learning Research},
+  year    = {2024},
+  volume  = {25},
+  number  = {217},
+  pages   = {1--10},
+  url     = {http://jmlr.org/papers/v25/23-1612.html}
 }
 ```
 

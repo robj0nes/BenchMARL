@@ -302,9 +302,9 @@ class ModelConfig(ABC):
         """
         This function can be used to wrap env_fun
         Args:
-            env_fun (callable): a function that takes no args and creates an environment
+            env_fun (callable): a function that takes no args and creates an enviornment
 
-        Returns: a function that takes no args and creates an environment
+        Returns: a function that takes no args and creates an enviornment
 
         """
         return env_fun

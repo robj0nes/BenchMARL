@@ -158,8 +158,8 @@ class Ippo(Algorithm):
                 ),
                 distribution_kwargs=(
                     {
-                        "min": self.action_spec[(group, "action")].space.low,
-                        "max": self.action_spec[(group, "action")].space.high,
+                        "low": self.action_spec[(group, "action")].space.low,
+                        "high": self.action_spec[(group, "action")].space.high,
                     }
                     if self.use_tanh_normal
                     else {}
@@ -324,4 +324,8 @@ class IppoConfig(AlgorithmConfig):
 
     @staticmethod
     def on_policy() -> bool:
+        return True
+
+    @staticmethod
+    def has_independent_critic() -> bool:
         return True
