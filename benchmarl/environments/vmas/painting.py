@@ -9,7 +9,7 @@ class TaskConfig:
     max_steps: int = MISSING
     n_agents: int = MISSING
     n_goals: int = MISSING
-    goals_from_image: bool = MISSING
+    goals_from_image: str = MISSING  # Path to image to create
     multi_head: bool = MISSING
 
     group_map: Dict = MISSING

@@ -9,7 +9,7 @@ task_type: "full"
 max_steps: 300
 n_agents: 3
 n_goals: 6
-goals_from_image: False
+goals_from_image: None
 
 # Do agents have a multi-head (ie. multi-agent per robot)
 # If true include in group map.
