@@ -16,9 +16,11 @@ from torchrl.envs.utils import ExplorationType, set_exploration_type
 def get_policy():
     current_folder = Path(os.path.dirname(os.path.realpath(__file__)))
     config_folder = current_folder / "yaml"
+    ckpt_folder = current_folder / "checkpoints"
 
     config = ExperimentConfig.get_from_yaml(str(config_folder / "base_experiment.yaml"))
-    config.restore_file = str(current_folder / "checkpoint_12000000.pt")
+
+    config.restore_file = str(ckpt_folder / "3H_3A_3G_1Hot_rdmSourceDim/checkpoint_12000000.pt")
 
     experiment = Experiment(
         config=config,
@@ -45,6 +47,7 @@ def run_policy(policy, obs):
          "listeners": TensorDict({"observation": torch.stack(obs[6:], dim=-2)}, batch_size=[1, n_agents])},
         batch_size=[1]
     )
+
     with set_exploration_type(ExplorationType.MODE), torch.no_grad():
         out_td = policy(td)
 
@@ -57,10 +60,6 @@ def run_policy(policy, obs):
 
 if __name__ == "__main__":
     n_agents = 3
-    # group_map = {
-    #     'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
-    #     'mix_agents': ['mix-agent_0', 'mix-agent_1', 'mix-agent_2']
-    # }
     group_map = {
         'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
         'speakers': ['speak-agent_0', 'speak-agent_1', 'speak-agent_2'],
@@ -70,16 +69,20 @@ if __name__ == "__main__":
 
     env = vmas.make_env(
         scenario="painting",
+
+        debug=False,
         num_envs=1,
         continuous_actions=True,
         # Environment specific variables
         n_agents=n_agents,
-        n_goals=12,
+        n_goals=10,
         pos_shaping=True,
         mix_shaping=True,
         learn_mix=True,
         learn_coms=True,
         coms_proximity=5,
+        coms_thresh=0.15,
+        mixing_thresh=0.15,
         task_type="full",
         max_steps=500,
         group_map=group_map,
@@ -91,9 +94,10 @@ if __name__ == "__main__":
         final_mix_reward=0.2,
         final_coms_reward=0.2,
         multi_head=True,
-        random_knowledge=True,
+        random_knowledge=False,
         random_all_dims=False,
-        coms_thresh=5
+        random_source_dim=True,
+        seed=6,
     )
     obs = env.reset()
     frame_list = []

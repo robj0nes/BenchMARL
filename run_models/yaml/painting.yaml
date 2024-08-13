@@ -4,12 +4,13 @@ defaults:
 
 # Defines the sub-task implementation. One of ['nav, 'mix', 'full']
 task_type: "full"
+debug: False
 
 # Defines the number of steps in each run, and thus the evaluation period.
 max_steps: 300
 n_agents: 3
 n_goals: 6
-goals_from_image: None
+goals_from_image: null
 
 # Do agents have a multi-head (ie. multi-agent per robot)
 # If true include in group map.
@@ -20,22 +21,18 @@ group_map: {
              "speakers": [ 'speak-agent_0', 'speak-agent_1', 'speak-agent_2'],
              "listeners": [ 'listen-agent_0', 'listen-agent_1', 'listen-agent_2']
 }
-
-# NOTE: Use if multi-head agent.
 #group_map: {
 #             'nav_agents': [ 'nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
-#             'mix_agents': [ 'mix-agent_0', 'mix-agent_1', 'mix-agent_2'],
-#              'nav_agents': [ 'nav-agent_0', 'nav-agent_1', 'nav-agent_2', 'nav-agent_3'],
-#              'mix_agents': [ 'mix-agent_0', 'mix-agent_1', 'mix-agent_2', 'mix-agent_3'],
-#             'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2', 'nav-agent_3', 'nav-agent_4', 'nav-agent_5'],
-#             'mix_agents': ['mix-agent_0', 'mix-agent_1', 'mix-agent_2', 'mix-agent_3', 'mix-agent_4', 'mix-agent_5'],
+#             "mix_agents": [ 'mix-agent_0', 'mix-agent_1', 'mix-agent_2'],
 #}
+
 
 # Whether other agents positions are included in the observation space.
 observe_other_agents: False
 
 # Is agent knowledge vector randomly generated, or evenly distributed.
-random_knowledge: True
+random_knowledge: False
+random_source_dim: True
 random_all_dims: False
 
 # Do agents need to learn the mixing coefficients to produce their goal.

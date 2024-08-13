@@ -433,3 +433,8 @@ class GnnConfig(ModelConfig):
     @staticmethod
     def associated_class():
         return Gnn
+
+    @property
+    def is_rnn(self) -> bool:
+        return False
+

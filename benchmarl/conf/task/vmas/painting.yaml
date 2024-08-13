@@ -4,12 +4,13 @@ defaults:
 
 # Defines the sub-task implementation. One of ['nav, 'mix', 'full']
 task_type: "full"
+debug: True
 
 # Defines the number of steps in each run, and thus the evaluation period.
 max_steps: 300
 n_agents: 3
 n_goals: 3
-goals_from_image: None
+goals_from_image: null
 
 # Do agents have a multi-head (ie. multi-agent per robot)
 # If true include in group map.
@@ -21,22 +22,15 @@ group_map: {
              "listeners": [ 'listen-agent_0', 'listen-agent_1', 'listen-agent_2']
 }
 
-# NOTE: Use if multi-head agent.
-#group_map: {
-#             'nav_agents': [ 'nav-agent_0', 'nav-agent_1', 'nav-agent_2'],
-#             'mix_agents': [ 'mix-agent_0', 'mix-agent_1', 'mix-agent_2'],
-#              'nav_agents': [ 'nav-agent_0', 'nav-agent_1', 'nav-agent_2', 'nav-agent_3'],
-#              'mix_agents': [ 'mix-agent_0', 'mix-agent_1', 'mix-agent_2', 'mix-agent_3'],
-#             'nav_agents': ['nav-agent_0', 'nav-agent_1', 'nav-agent_2', 'nav-agent_3', 'nav-agent_4', 'nav-agent_5'],
-#             'mix_agents': ['mix-agent_0', 'mix-agent_1', 'mix-agent_2', 'mix-agent_3', 'mix-agent_4', 'mix-agent_5'],
-#}
-
 # Whether other agents positions are included in the observation space.
 observe_other_agents: False
 
+# One-hot case: Is agent source dimension randomly assigned.
+random_source_dim: False
 # Is agent knowledge vector randomly generated, or evenly distributed.
 random_knowledge: True
-random_all_dims: False
+# Is agent knowledge distributed across all knowledge dims
+random_all_dims: True
 
 # Do agents need to learn the mixing coefficients to produce their goal.
 learn_mix: True
@@ -45,7 +39,7 @@ learn_coms: True
 # TODO: If we extend to higher dimensionality (>8) use a better metric than L2.
 # Maximum euclidean distance from goal to consider payload mix successful.
 #  NOTE: values higher than 0.1 result in poor solution matches.
-mixing_thresh: 0.1
+mixing_thresh: 0.15
 
 # Minimum L2 dist between agents to be able to communicate.
 coms_proximity: 5

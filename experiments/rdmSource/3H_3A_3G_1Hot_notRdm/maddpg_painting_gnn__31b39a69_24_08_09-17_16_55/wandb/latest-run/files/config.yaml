@@ -1,0 +1,162 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    python_version: 3.11.5
+    cli_version: 0.16.3
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1723220219.499267
+    t:
+      1:
+      - 1
+      - 50
+      - 55
+      - 77
+      - 105
+      2:
+      - 1
+      - 50
+      - 55
+      - 77
+      - 105
+      3:
+      - 2
+      - 3
+      - 13
+      - 14
+      - 23
+      4: 3.11.5
+      5: 0.16.3
+      8:
+      - 4
+      - 5
+      13: darwin-arm64
+experiment_config:
+  desc: null
+  value:
+    sampling_device: cpu
+    train_device: cpu
+    buffer_device: cpu
+    share_policy_params: false
+    prefer_continuous_actions: true
+    collect_with_grad: false
+    gamma: 0.9
+    lr: 0.0005
+    adam_eps: 1.0e-06
+    clip_grad_norm: true
+    clip_grad_val: 5.0
+    soft_target_update: true
+    polyak_tau: 0.005
+    hard_target_update_frequency: 5
+    exploration_eps_init: 0.8
+    exploration_eps_end: 0.01
+    exploration_anneal_frames: null
+    max_n_iters: 2000
+    max_n_frames: null
+    on_policy_collected_frames_per_batch: 6000
+    on_policy_n_envs_per_worker: 10
+    on_policy_n_minibatch_iters: 45
+    on_policy_minibatch_size: 400
+    off_policy_collected_frames_per_batch: 6000
+    off_policy_n_envs_per_worker: 10
+    off_policy_n_optimizer_steps: 1000
+    off_policy_train_batch_size: 128
+    off_policy_memory_size: 1000000
+    off_policy_init_random_frames: 0
+    evaluation: true
+    render: true
+    evaluation_interval: 60000
+    evaluation_episodes: 10
+    evaluation_deterministic_actions: true
+    loggers:
+    - wandb
+    create_json: true
+    save_folder: null
+    restore_file: null
+    checkpoint_interval: 6000
+    checkpoint_at_end: false
+    keep_checkpoints_num: 3
+algorithm_config:
+  desc: null
+  value:
+    share_param_critic: true
+    loss_function: l2
+    delay_value: true
+    use_tanh_mapping: true
+model_config:
+  desc: null
+  value:
+    topology: full
+    self_loops: false
+    gnn_class: torch_geometric.nn.conv.graph_conv.GraphConv
+    gnn_kwargs:
+      aggr: add
+    position_key: null
+    velocity_key: null
+    exclude_pos_from_node_features: false
+    edge_radius: null
+task_config:
+  desc: null
+  value:
+    task_type: full
+    max_steps: 300
+    n_agents: 3
+    n_goals: 3
+    goals_from_image: null
+    multi_head: true
+    group_map:
+      nav_agents:
+      - nav-agent_0
+      - nav-agent_1
+      - nav-agent_2
+      speakers:
+      - speak-agent_0
+      - speak-agent_1
+      - speak-agent_2
+      listeners:
+      - listen-agent_0
+      - listen-agent_1
+      - listen-agent_2
+    observe_other_agents: false
+    random_knowledge: false
+    random_all_dims: false
+    learn_mix: true
+    learn_coms: true
+    per_agent_final: false
+    coms_proximity: 5.0
+    mixing_thresh: 0.1
+    coms_thresh: 0.1
+    final_pos_reward: 0.2
+    final_mix_reward: 0.2
+    final_coms_reward: 0.2
+    goal_completion_reward: 0.0
+    pos_shaping: true
+    pos_shaping_factor: 1.0
+    mix_shaping: true
+    mix_shaping_factor: 1.0
+    agent_collision_penalty: -0.2
+    env_collision_penalty: -0.2
+continuous_actions:
+  desc: null
+  value: true
+on_policy:
+  desc: null
+  value: false
+algorithm_name:
+  desc: null
+  value: maddpg
+model_name:
+  desc: null
+  value: gnn
+task_name:
+  desc: null
+  value: painting
+environment_name:
+  desc: null
+  value: vmas
+seed:
+  desc: null
+  value: 0

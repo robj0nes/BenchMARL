@@ -5,11 +5,12 @@ from typing import Dict
 @dataclass
 class TaskConfig:
     task_type: str = MISSING
+    debug: bool = MISSING
 
     max_steps: int = MISSING
     n_agents: int = MISSING
     n_goals: int = MISSING
-    goals_from_image: str = MISSING  # Path to image to create
+    goals_from_image: str | None = MISSING  # Path to image to create
     multi_head: bool = MISSING
 
     group_map: Dict = MISSING
@@ -17,6 +18,7 @@ class TaskConfig:
     observe_other_agents: bool = MISSING
     random_knowledge: bool = MISSING
     random_all_dims: bool = MISSING
+    random_source_dim: bool = MISSING
     learn_mix: bool = MISSING
     learn_coms: bool = MISSING
     per_agent_final: bool = MISSING
