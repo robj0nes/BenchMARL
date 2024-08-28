@@ -372,3 +372,9 @@ class DeepsetsConfig(ModelConfig):
     @staticmethod
     def associated_class():
         return Deepsets
+
+    @property
+    def is_rnn(self) -> bool:
+        return False
+
+

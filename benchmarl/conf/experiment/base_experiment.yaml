@@ -96,6 +96,7 @@ save_folder: null
 
 # Absolute path to a checkpoint file where the experiment was saved. If null the experiment is started fresh.
 restore_file: null
+#restore_file: /Users/vd20433/FARSCOPE/FirstYearProject/BenchMARL/benchmarl/outputs/2024-08-13/09-27-58/maddpg_painting_gnn__5e826d3a_24_08_13-09_28_06/checkpoints/checkpoint_12000000.pt
 #restore_file: /Users/vd20433/FARSCOPE/FirstYearProject/BenchMARL/benchmarl/outputs/2024-08-11/15-41-02/maddpg_painting_gnn__c4af18d3_24_08_11-15_41_07/checkpoints/checkpoint_5928000.pt
 
 # Interval for experiment saving in terms of collected frames (this should be a multiple of on/off_policy_collected_frames_per_batch).

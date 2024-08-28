@@ -1,7 +1,7 @@
 {
     "vmas": {
         "painting": {
-            "Rdm_allDims": {
+            "Rdm_allDims 0.0005 lr": {
                 "seed_0": {
                     "absolute_metrics": {
                         "nav_agents_return": [

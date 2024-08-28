@@ -7,7 +7,7 @@ task_type: "full"
 debug: False
 
 # Defines the number of steps in each run, and thus the evaluation period.
-max_steps: 300
+max_steps: 5000
 n_agents: 3
 n_goals: 6
 goals_from_image: null

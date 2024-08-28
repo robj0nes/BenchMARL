@@ -69,13 +69,13 @@ if __name__ == "__main__":
 
     env = vmas.make_env(
         scenario="painting",
-
+        goals_from_image="/Users/vd20433/FARSCOPE/FirstYearProject/BenchMARL/run_models/images/4x4mosaic2.png",
         debug=False,
         num_envs=1,
         continuous_actions=True,
         # Environment specific variables
         n_agents=n_agents,
-        n_goals=10,
+        n_goals=5,
         pos_shaping=True,
         mix_shaping=True,
         learn_mix=True,
@@ -84,7 +84,7 @@ if __name__ == "__main__":
         coms_thresh=0.15,
         mixing_thresh=0.15,
         task_type="full",
-        max_steps=500,
+        max_steps=1000,
         group_map=group_map,
         knowledge_shape=(2, 3),
         clamp_actions=True,
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     )
     obs = env.reset()
     frame_list = []
-    for _ in range(500):
+    for _ in range(1000):
         actions = run_policy(policy, obs)
         obs, rews, dones, info = env.step(actions)
         frame = env.render(

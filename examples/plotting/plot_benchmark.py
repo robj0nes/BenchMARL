@@ -106,8 +106,11 @@ if __name__ == "__main__":
     fig, ax = plt.subplots()
     ax.set_xlabel("Timesteps")
     ax.set_ylabel("Normalised Mean Return")
-    for key in steps.keys():
-        ax.plot(6000 * np.arange(0, len(steps[key])), steps[key], label=key)
+    for i, key in enumerate(steps.keys()):
+        xs = 6000 * np.arange(0, len(steps[key]))
+        ax.plot(xs, steps[key], label=key, alpha=0.5)
+        color = plt.gca().lines[-1].get_color()
+        ax.plot(xs, np.poly1d(np.polyfit(xs, steps[key], 12))(xs), color=color)
     ax.legend()
     plt.show()
 
