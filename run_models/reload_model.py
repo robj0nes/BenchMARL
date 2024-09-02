@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
     env = vmas.make_env(
         scenario="painting",
-        goals_from_image="/Users/vd20433/FARSCOPE/FirstYearProject/BenchMARL/run_models/images/4x4mosaic2.png",
+        goals_from_image="/Users/vd20433/FARSCOPE/FirstYearProject/BenchMARL/run_models/images/8x8face.png",
         debug=False,
         num_envs=1,
         continuous_actions=True,
