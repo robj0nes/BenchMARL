@@ -1,0 +1,152 @@
+Running on host bp1-gpu020.data.bp.acrc.priv
+Thu Sep  5 11:36:09 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.54.15              Driver Version: 550.54.15      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2080 Ti     Off |   00000000:18:00.0 Off |                  N/A |
+| 30%   31C    P8              6W /  250W |       0MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Time is Thu Sep 5 11:36:09 BST 2024
+Directory is /user/work/vd20433/BenchMARL
+Slurm job ID is 10119030
+This job runs on the following machines:
+bp1-gpu020
+Seed = 
+Config = 
+Agent Model = 
+Critic Model = 
+Algorithm = 
+Algorithm Config = 
+Experiment Config = 
+
+Algorithm: maddpg, Task: vmas/painting
+
+Loaded config:
+
+experiment:
+  sampling_device: cuda
+  train_device: cuda
+  buffer_device: cuda
+  share_policy_params: false
+  prefer_continuous_actions: true
+  collect_with_grad: false
+  gamma: 0.9
+  lr: 5.0e-05
+  adam_eps: 1.0e-06
+  clip_grad_norm: true
+  clip_grad_val: 5.0
+  soft_target_update: true
+  polyak_tau: 0.005
+  hard_target_update_frequency: 5
+  exploration_eps_init: 0.8
+  exploration_eps_end: 0.01
+  exploration_anneal_frames: null
+  max_n_iters: 2000
+  max_n_frames: null
+  on_policy_collected_frames_per_batch: 6000
+  on_policy_n_envs_per_worker: 10
+  on_policy_n_minibatch_iters: 45
+  on_policy_minibatch_size: 400
+  off_policy_collected_frames_per_batch: 6000
+  off_policy_n_envs_per_worker: 10
+  off_policy_n_optimizer_steps: 1000
+  off_policy_train_batch_size: 128
+  off_policy_memory_size: 1000000
+  off_policy_init_random_frames: 0
+  evaluation: true
+  render: true
+  evaluation_interval: 60000
+  evaluation_episodes: 10
+  evaluation_deterministic_actions: true
+  loggers:
+  - wandb
+  create_json: true
+  save_folder: null
+  restore_file: null
+  checkpoint_interval: 60000
+  checkpoint_at_end: false
+  keep_checkpoints_num: 3
+algorithm:
+  share_param_critic: true
+  loss_function: l2
+  delay_value: true
+  use_tanh_mapping: true
+task:
+  task_type: full
+  debug: false
+  max_steps: 300
+  n_agents: 3
+  n_goals: 3
+  goals_from_image: null
+  multi_head: true
+  group_map:
+    nav_agents:
+    - nav-agent_0
+    - nav-agent_1
+    - nav-agent_2
+    speakers:
+    - speak-agent_0
+    - speak-agent_1
+    - speak-agent_2
+    listeners:
+    - listen-agent_0
+    - listen-agent_1
+    - listen-agent_2
+  observe_other_agents: false
+  random_source_dim: false
+  random_knowledge: true
+  random_all_dims: true
+  learn_mix: true
+  learn_coms: true
+  mixing_thresh: 0.15
+  coms_proximity: 5.0
+  coms_thresh: 0.1
+  final_pos_reward: 0.2
+  final_mix_reward: 0.2
+  final_coms_reward: 0.2
+  goal_completion_reward: 0.0
+  per_agent_final: false
+  pos_shaping: true
+  pos_shaping_factor: 1.0
+  mix_shaping: true
+  mix_shaping_factor: 1.0
+  agent_collision_penalty: -0.2
+  env_collision_penalty: -0.2
+model:
+  name: gnn
+  topology: full
+  self_loops: false
+  gnn_class: torch_geometric.nn.conv.GraphConv
+  gnn_kwargs:
+    aggr: add
+  position_key: null
+  velocity_key: null
+  exclude_pos_from_node_features: false
+  edge_radius: null
+critic_model:
+  name: deepsets
+  aggr: sum
+  local_nn_num_cells:
+  - 128
+  - 128
+  local_nn_activation_class: torch.nn.Tanh
+  out_features_local_nn: 256
+  global_nn_num_cells:
+  - 256
+  - 256
+  global_nn_activation_class: torch.nn.Tanh
+seed: 0
+
