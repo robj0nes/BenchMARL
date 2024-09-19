@@ -30,7 +30,7 @@ random_source_dim: True
 # Is agent knowledge vector randomly generated, or evenly distributed.
 random_knowledge: True
 # Is agent knowledge distributed across all knowledge dims
-random_all_dims: True
+random_all_dims: False
 
 # Do agents need to learn the mixing coefficients to produce their goal.
 learn_mix: True

@@ -5,7 +5,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 if __name__ == '__main__':
-    res_dir = "/Users/vd20433/FARSCOPE/FirstYearProject/BenchMARL/experiments/listeners-test"
+    res_dir = "/experiments/private/listeners-test"
     files = os.listdir(res_dir)
     mean_lens = pd.read_csv(os.path.join(res_dir, "3A_3G_RdmAllDims_MeanLens.csv")).iloc[:, 1]
     results = pd.read_csv(os.path.join(res_dir, "3A_3G_RdmAllDims_ListenersEval.csv")).iloc[:, 1]
