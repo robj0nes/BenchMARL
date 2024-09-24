@@ -8,8 +8,8 @@ debug: False
 
 # Defines the number of steps in each run, and thus the evaluation period.
 max_steps: 300
-n_agents: 5
-n_goals: 5
+n_agents: 6
+n_goals: 6
 goals_from_image: null
 
 # Do agents have a multi-head (ie. multi-agent per robot)
@@ -17,12 +17,10 @@ goals_from_image: null
 multi_head: True
 
 group_map: {
-             'nav_agents': [ 'nav-agent_0', 'nav-agent_1', 'nav-agent_2',
-                             'nav-agent_3', 'nav-agent_4'],
-             "speakers": [ 'speak-agent_0', 'speak-agent_1', 'speak-agent_2',
-                           'speak-agent_3', 'speak-agent_4',],
-             "listeners": [ 'listen-agent_0', 'listen-agent_1', 'listen-agent_2',
-                            'listen-agent_3', 'listen-agent_4']
+             'nav_agents': [ 'nav-agent_0', 'nav-agent_1', 'nav-agent_2', 'nav-agent_3', 'nav-agent_4', 'nav-agent_5'],
+             "speakers": [ 'speak-agent_0', 'speak-agent_1', 'speak-agent_2', 'speak-agent_3', 'speak-agent_4', 'speak-agent_5'],
+             "listeners": [ 'listen-agent_0', 'listen-agent_1', 'listen-agent_2', 'listen-agent_3', 'listen-agent_4', 'listen-agent_5']
+
 }
 
 # Whether other agents positions are included in the observation space.
