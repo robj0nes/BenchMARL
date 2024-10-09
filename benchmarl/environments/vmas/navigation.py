@@ -18,3 +18,4 @@ class TaskConfig:
     split_goals: bool = MISSING
     lidar_range: float = MISSING
     agent_radius: float = MISSING
+    use_gbp: bool = MISSING
