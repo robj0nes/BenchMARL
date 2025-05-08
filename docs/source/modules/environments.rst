@@ -14,9 +14,11 @@ Common
 .. autosummary::
    :nosignatures:
    :toctree: ../generated
-   :template: autosummary/class.rst
+   :template: autosummary/class_no_undoc.rst
 
    Task
+   TaskClass
+
 
 VMAS
 ----
@@ -41,8 +43,6 @@ PettingZoo
    PettingZooTask
 
 
-
-
 SMACv2
 ------
 
@@ -53,6 +53,7 @@ SMACv2
 
    Smacv2Task
 
+
 MeltingPot
 ----------
 
@@ -62,3 +63,14 @@ MeltingPot
    :template: autosummary/class.rst
 
    MeltingPotTask
+
+
+MAgent2
+-------
+
+.. autosummary::
+   :nosignatures:
+   :toctree: ../generated
+   :template: autosummary/class.rst
+
+   MAgentTask

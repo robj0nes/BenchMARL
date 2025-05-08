@@ -9,13 +9,8 @@ from typing import Dict, Iterable, Tuple, Type
 
 from tensordict import TensorDictBase
 from tensordict.nn import TensorDictModule, TensorDictSequential
-from torchrl.data import CompositeSpec, UnboundedContinuousTensorSpec
-from torchrl.modules import (
-    AdditiveGaussianWrapper,
-    Delta,
-    ProbabilisticActor,
-    TanhDelta,
-)
+from torchrl.data import Composite, Unbounded
+from torchrl.modules import AdditiveGaussianModule, Delta, ProbabilisticActor, TanhDelta
 from torchrl.objectives import DDPGLoss, LossModule, ValueEstimators
 
 from benchmarl.algorithms.common import Algorithm, AlgorithmConfig
@@ -94,13 +89,13 @@ class Iddpg(Algorithm):
         if continuous:
             n_agents = len(self.group_map[group])
             logits_shape = list(self.action_spec[group, "action"].shape)
-            actor_input_spec = CompositeSpec(
+            actor_input_spec = Composite(
                 {group: self.observation_spec[group].clone().to(self.device)}
             )
-            actor_output_spec = CompositeSpec(
+            actor_output_spec = Composite(
                 {
-                    group: CompositeSpec(
-                        {"param": UnboundedContinuousTensorSpec(shape=logits_shape)},
+                    group: Composite(
+                        {"param": Unbounded(shape=logits_shape)},
                         shape=(n_agents,),
                     )
                 }
@@ -143,15 +138,17 @@ class Iddpg(Algorithm):
     def _get_policy_for_collection(
         self, policy_for_loss: TensorDictModule, group: str, continuous: bool
     ) -> TensorDictModule:
-        return AdditiveGaussianWrapper(
-            policy_for_loss,
+        noise_module = AdditiveGaussianModule(
+            spec=self.action_spec,
             annealing_num_steps=self.experiment_config.get_exploration_anneal_frames(
                 self.on_policy
             ),
             action_key=(group, "action"),
             sigma_init=self.experiment_config.exploration_eps_init,
             sigma_end=self.experiment_config.exploration_eps_end,
+            device=self.device,
         )
+        return TensorDictSequential(*policy_for_loss, noise_module)
 
     def process_batch(self, group: str, batch: TensorDictBase) -> TensorDictBase:
         keys = list(batch.keys(True, True))
@@ -190,21 +187,17 @@ class Iddpg(Algorithm):
         n_agents = len(self.group_map[group])
         modules = []
 
-        critic_input_spec = CompositeSpec(
+        critic_input_spec = Composite(
             {
                 group: self.observation_spec[group]
                 .clone()
                 .update(self.action_spec[group])
             }
         )
-        critic_output_spec = CompositeSpec(
+        critic_output_spec = Composite(
             {
-                group: CompositeSpec(
-                    {
-                        "state_action_value": UnboundedContinuousTensorSpec(
-                            shape=(n_agents, 1)
-                        )
-                    },
+                group: Composite(
+                    {"state_action_value": Unbounded(shape=(n_agents, 1))},
                     shape=(n_agents,),
                 )
             }

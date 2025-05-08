@@ -6,11 +6,9 @@
 import contextlib
 from typing import List
 
-import packaging
 import pytest
 import torch
 import torch_geometric.nn
-import torchrl
 
 from benchmarl.hydra_config import load_model_config_from_hydra
 from benchmarl.models import GnnConfig, model_config_registry
@@ -18,7 +16,7 @@ from benchmarl.models import GnnConfig, model_config_registry
 from benchmarl.models.common import output_has_agent_dim, SequenceModelConfig
 from hydra import compose, initialize
 
-from torchrl.data.tensor_specs import CompositeSpec, UnboundedContinuousTensorSpec
+from torchrl.data.tensor_specs import Composite, Unbounded
 
 
 def _get_input_and_output_specs(
@@ -48,49 +46,37 @@ def _get_input_and_output_specs(
     other_single_agent_input_shape = in_features + 1
 
     if input_has_agent_dim:
-        input_spec = CompositeSpec(
+        input_spec = Composite(
             {
-                "agents": CompositeSpec(
+                "agents": Composite(
                     {
-                        "observation": UnboundedContinuousTensorSpec(
-                            shape=multi_agent_input_shape
-                        ),
-                        "other": UnboundedContinuousTensorSpec(
-                            shape=other_multi_agent_input_shape
-                        ),
+                        "observation": Unbounded(shape=multi_agent_input_shape),
+                        "other": Unbounded(shape=other_multi_agent_input_shape),
                     },
                     shape=(n_agents,),
                 )
             }
         )
     else:
-        input_spec = CompositeSpec(
+        input_spec = Composite(
             {
-                "observation": UnboundedContinuousTensorSpec(
-                    shape=single_agent_input_shape
-                ),
-                "other": UnboundedContinuousTensorSpec(
-                    shape=other_single_agent_input_shape
-                ),
+                "observation": Unbounded(shape=single_agent_input_shape),
+                "other": Unbounded(shape=other_single_agent_input_shape),
             },
         )
 
     if output_has_agent_dim(centralised=centralised, share_params=share_params):
-        output_spec = CompositeSpec(
+        output_spec = Composite(
             {
-                "agents": CompositeSpec(
-                    {
-                        "out": UnboundedContinuousTensorSpec(
-                            shape=(n_agents, out_features)
-                        )
-                    },
+                "agents": Composite(
+                    {"out": Unbounded(shape=(n_agents, out_features))},
                     shape=(n_agents,),
                 )
             },
         )
     else:
-        output_spec = CompositeSpec(
-            {"out": UnboundedContinuousTensorSpec(shape=(out_features,))},
+        output_spec = Composite(
+            {"out": Unbounded(shape=(out_features,))},
         )
     return input_spec, output_spec
 
@@ -183,8 +169,6 @@ def test_models_forward_shape(
         share_params=share_params,
         n_agents=n_agents,
     )
-    if packaging.version.parse(torchrl.__version__).local is None and config.is_rnn:
-        pytest.skip("rnn model needs torchrl from github")
 
     if centralised:
         config.is_critic = True
@@ -205,9 +189,9 @@ def test_models_forward_shape(
             if centralised:
                 pytest.skip("rnn model with this batch sizes is a policy")
             hidden_spec = config.get_model_state_spec()
-            hidden_spec = CompositeSpec(
+            hidden_spec = Composite(
                 {
-                    "agents": CompositeSpec(
+                    "agents": Composite(
                         hidden_spec.expand(n_agents, *hidden_spec.shape),
                         shape=(n_agents,),
                     )
@@ -275,8 +259,6 @@ def test_share_params_between_models(
         config = model_config_registry[model_name].get_from_yaml()
     if centralised:
         config.is_critic = True
-    if packaging.version.parse(torchrl.__version__).local is None and config.is_rnn:
-        pytest.skip("rnn model needs torchrl from github")
     model = config.get_model(
         input_spec=input_spec,
         output_spec=output_spec,
@@ -323,14 +305,14 @@ class TestGnn:
 
         multi_agent_obs = torch.rand((*batch_size, n_agents, obs_size))
         multi_agent_pos = torch.rand((*batch_size, n_agents, pos_size))
-        input_spec = CompositeSpec(
+        input_spec = Composite(
             {
-                agent_goup: CompositeSpec(
+                agent_goup: Composite(
                     {
-                        "observation": UnboundedContinuousTensorSpec(
+                        "observation": Unbounded(
                             shape=multi_agent_obs.shape[len(batch_size) :]
                         ),
-                        "pos": UnboundedContinuousTensorSpec(
+                        "pos": Unbounded(
                             shape=multi_agent_pos.shape[len(batch_size) :]
                         ),
                     },
@@ -339,14 +321,10 @@ class TestGnn:
             }
         )
 
-        output_spec = CompositeSpec(
+        output_spec = Composite(
             {
-                agent_goup: CompositeSpec(
-                    {
-                        "out": UnboundedContinuousTensorSpec(
-                            shape=(n_agents, out_features)
-                        )
-                    },
+                agent_goup: Composite(
+                    {"out": Unbounded(shape=(n_agents, out_features))},
                     shape=(n_agents,),
                 )
             },
@@ -431,16 +409,12 @@ class TestDeepsets:
         multi_agent_input_shape = (n_agents, in_features)
         other_multi_agent_input_shape = (n_agents, in_features)
 
-        input_spec = CompositeSpec(
+        input_spec = Composite(
             {
-                "agents": CompositeSpec(
+                "agents": Composite(
                     {
-                        "observation": UnboundedContinuousTensorSpec(
-                            shape=multi_agent_input_shape
-                        ),
-                        "other": UnboundedContinuousTensorSpec(
-                            shape=other_multi_agent_input_shape
-                        ),
+                        "observation": Unbounded(shape=multi_agent_input_shape),
+                        "other": Unbounded(shape=other_multi_agent_input_shape),
                     },
                     shape=(n_agents,),
                 )
@@ -448,21 +422,17 @@ class TestDeepsets:
         )
 
         if output_has_agent_dim(centralised=centralised, share_params=share_params):
-            output_spec = CompositeSpec(
+            output_spec = Composite(
                 {
-                    "agents": CompositeSpec(
-                        {
-                            "out": UnboundedContinuousTensorSpec(
-                                shape=(n_agents, out_features)
-                            )
-                        },
+                    "agents": Composite(
+                        {"out": Unbounded(shape=(n_agents, out_features))},
                         shape=(n_agents,),
                     )
                 },
             )
         else:
-            output_spec = CompositeSpec(
-                {"out": UnboundedContinuousTensorSpec(shape=(out_features,))},
+            output_spec = Composite(
+                {"out": Unbounded(shape=(out_features,))},
             )
 
         model = config.get_model(

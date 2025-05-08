@@ -5,13 +5,13 @@
 #
 
 
-import packaging
 import pytest
-import torchrl
+
 from benchmarl.algorithms import (
     algorithm_config_registry,
     IddpgConfig,
     IppoConfig,
+    IqlConfig,
     IsacConfig,
     MaddpgConfig,
     MappoConfig,
@@ -47,6 +47,7 @@ class TestPettingzoo:
         ):
             pytest.skip()
 
+        task = task.get_from_yaml()
         # To not run unsupported algo-task pairs
         if (
             not task.supports_continuous_actions()
@@ -57,7 +58,6 @@ class TestPettingzoo:
         ):
             pytest.skip()
 
-        task = task.get_from_yaml()
         experiment_config.prefer_continuous_actions = prefer_continuous
         experiment = Experiment(
             algorithm_config=algo_config.get_from_yaml(),
@@ -108,23 +108,22 @@ class TestPettingzoo:
         experiment.run()
 
     @pytest.mark.parametrize(
-        "algo_config", [IddpgConfig, MaddpgConfig, IppoConfig, MappoConfig, QmixConfig]
+        "algo_config", [IddpgConfig, MappoConfig, QmixConfig, MasacConfig]
     )
     @pytest.mark.parametrize("task", [PettingZooTask.SIMPLE_TAG])
-    @pytest.mark.skipif(
-        packaging.version.parse(torchrl.__version__).local is None,
-        reason="gru model needs torchrl from github",
-    )
+    @pytest.mark.parametrize("parallel_collection", [True, False])
     def test_gru(
         self,
         algo_config: AlgorithmConfig,
         task: Task,
+        parallel_collection: bool,
         experiment_config,
         gru_mlp_sequence_config,
     ):
         algo_config = algo_config.get_from_yaml()
         if algo_config.has_critic():
             algo_config.share_param_critic = False
+        experiment_config.parallel_collection = parallel_collection
         experiment_config.share_policy_params = False
         task = task.get_from_yaml()
         experiment = Experiment(
@@ -138,13 +137,9 @@ class TestPettingzoo:
         experiment.run()
 
     @pytest.mark.parametrize(
-        "algo_config", [IddpgConfig, MaddpgConfig, IppoConfig, MappoConfig, QmixConfig]
+        "algo_config", [MaddpgConfig, IppoConfig, QmixConfig, IsacConfig]
     )
     @pytest.mark.parametrize("task", [PettingZooTask.SIMPLE_TAG])
-    @pytest.mark.skipif(
-        packaging.version.parse(torchrl.__version__).local is None,
-        reason="lstm model needs torchrl from github",
-    )
     def test_lstm(
         self,
         algo_config: AlgorithmConfig,
@@ -167,17 +162,26 @@ class TestPettingzoo:
         )
         experiment.run()
 
-    @pytest.mark.parametrize("algo_config", algorithm_config_registry.values())
+    @pytest.mark.parametrize("algo_config", [MappoConfig, IsacConfig, IqlConfig])
     @pytest.mark.parametrize("prefer_continuous", [True, False])
     @pytest.mark.parametrize("task", [PettingZooTask.SIMPLE_TAG])
+    @pytest.mark.parametrize("parallel_collection", [True, False])
     def test_reloading_trainer(
         self,
         algo_config: AlgorithmConfig,
         task: Task,
+        parallel_collection,
         experiment_config,
         mlp_sequence_config,
         prefer_continuous,
     ):
+        # To not run the same test twice
+        if (prefer_continuous and not algo_config.supports_continuous_actions()) or (
+            not prefer_continuous and not algo_config.supports_discrete_actions()
+        ):
+            pytest.skip()
+
+        experiment_config.parallel_collection = parallel_collection
         experiment_config.prefer_continuous_actions = prefer_continuous
         algo_config = algo_config.get_from_yaml()
 

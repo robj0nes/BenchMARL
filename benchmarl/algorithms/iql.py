@@ -9,7 +9,7 @@ from typing import Dict, Iterable, Tuple, Type
 
 from tensordict import TensorDictBase
 from tensordict.nn import TensorDictModule, TensorDictSequential
-from torchrl.data import CompositeSpec, UnboundedContinuousTensorSpec
+from torchrl.data import Composite, Unbounded
 from torchrl.modules import EGreedyModule, QValueModule
 from torchrl.objectives import DQNLoss, LossModule, ValueEstimators
 
@@ -77,14 +77,14 @@ class Iql(Algorithm):
             self.action_spec[group, "action"].space.n,
         ]
 
-        actor_input_spec = CompositeSpec(
+        actor_input_spec = Composite(
             {group: self.observation_spec[group].clone().to(self.device)}
         )
 
-        actor_output_spec = CompositeSpec(
+        actor_output_spec = Composite(
             {
-                group: CompositeSpec(
-                    {"action_value": UnboundedContinuousTensorSpec(shape=logits_shape)},
+                group: Composite(
+                    {"action_value": Unbounded(shape=logits_shape)},
                     shape=(n_agents,),
                 )
             }
@@ -136,6 +136,7 @@ class Iql(Algorithm):
             action_mask_key=action_mask_key,
             eps_init=self.experiment_config.exploration_eps_init,
             eps_end=self.experiment_config.exploration_eps_end,
+            device=self.device,
         )
         return TensorDictSequential(*policy_for_loss, greedy)
 

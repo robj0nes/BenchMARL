@@ -12,7 +12,7 @@ from tensordict import TensorDictBase
 from tensordict.nn import TensorDictModule, TensorDictSequential
 from tensordict.nn.distributions import NormalParamExtractor
 from torch.distributions import Categorical
-from torchrl.data import CompositeSpec, UnboundedContinuousTensorSpec
+from torchrl.data import Composite, Unbounded
 from torchrl.modules import (
     IndependentNormal,
     MaskedCategorical,
@@ -122,14 +122,14 @@ class Mappo(Algorithm):
                 self.action_spec[group, "action"].space.n,
             ]
 
-        actor_input_spec = CompositeSpec(
+        actor_input_spec = Composite(
             {group: self.observation_spec[group].clone().to(self.device)}
         )
 
-        actor_output_spec = CompositeSpec(
+        actor_output_spec = Composite(
             {
-                group: CompositeSpec(
-                    {"logits": UnboundedContinuousTensorSpec(shape=logits_shape)},
+                group: Composite(
+                    {"logits": Unbounded(shape=logits_shape)},
                     shape=(n_agents,),
                 )
             }
@@ -274,51 +274,38 @@ class Mappo(Algorithm):
     def get_critic(self, group: str) -> TensorDictModule:
         n_agents = len(self.group_map[group])
         if self.share_param_critic:
-            critic_output_spec = CompositeSpec(
-                {"state_value": UnboundedContinuousTensorSpec(shape=(1,))}
-            )
+            critic_output_spec = Composite({"state_value": Unbounded(shape=(1,))})
         else:
-            critic_output_spec = CompositeSpec(
+            critic_output_spec = Composite(
                 {
-                    group: CompositeSpec(
-                        {
-                            "state_value": UnboundedContinuousTensorSpec(
-                                shape=(n_agents, 1)
-                            )
-                        },
+                    group: Composite(
+                        {"state_value": Unbounded(shape=(n_agents, 1))},
                         shape=(n_agents,),
                     )
                 }
             )
 
         if self.state_spec is not None:
-            value_module = self.critic_model_config.get_model(
-                input_spec=self.state_spec,
-                output_spec=critic_output_spec,
-                n_agents=n_agents,
-                centralised=True,
-                input_has_agent_dim=False,
-                agent_group=group,
-                share_params=self.share_param_critic,
-                device=self.device,
-                action_spec=self.action_spec,
-            )
+            input_has_agent_dim = False
+            critic_input_spec = self.state_spec
 
         else:
-            critic_input_spec = CompositeSpec(
+            input_has_agent_dim = True
+            critic_input_spec = Composite(
                 {group: self.observation_spec[group].clone().to(self.device)}
             )
-            value_module = self.critic_model_config.get_model(
-                input_spec=critic_input_spec,
-                output_spec=critic_output_spec,
-                n_agents=n_agents,
-                centralised=True,
-                input_has_agent_dim=True,
-                agent_group=group,
-                share_params=self.share_param_critic,
-                device=self.device,
-                action_spec=self.action_spec,
-            )
+
+        value_module = self.critic_model_config.get_model(
+            input_spec=critic_input_spec,
+            output_spec=critic_output_spec,
+            n_agents=n_agents,
+            centralised=True,
+            input_has_agent_dim=input_has_agent_dim,
+            agent_group=group,
+            share_params=self.share_param_critic,
+            device=self.device,
+            action_spec=self.action_spec,
+        )
         if self.share_param_critic:
             expand_module = TensorDictModule(
                 lambda value: value.unsqueeze(-2).expand(

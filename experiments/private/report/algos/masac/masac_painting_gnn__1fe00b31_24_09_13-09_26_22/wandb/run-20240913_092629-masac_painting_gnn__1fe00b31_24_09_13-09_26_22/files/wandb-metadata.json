@@ -1,0 +1,209 @@
+{
+    "os": "Linux-4.18.0-513.18.1.el8_9.x86_64-x86_64-with-glibc2.28",
+    "python": "3.11.0",
+    "heartbeatAt": "2024-09-13T08:26:30.441903",
+    "startedAt": "2024-09-13T08:26:29.302424",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "seed=3",
+        "experiment=bp_experiment",
+        "model=layers/gnn",
+        "model@critic_model=layers/deepsets",
+        "algorithm=masac",
+        "task=vmas/painting"
+    ],
+    "state": "running",
+    "program": "/user/work/vd20433/BenchMARL/benchmarl/run.py",
+    "codePathLocal": "benchmarl/run.py",
+    "codePath": "benchmarl/run.py",
+    "host": "bp1-gpu030.data.bp.acrc.priv",
+    "username": "vd20433",
+    "executable": "/user/home/vd20433/work/miniconda3/envs/benchmarl/bin/python",
+    "cpu_count": 16,
+    "cpu_count_logical": 32,
+    "cpu_freq": {
+        "current": 3127.09375,
+        "min": 1500.0,
+        "max": 3100.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2346.612,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3194.242,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3194.113,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3200.07,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3193.33,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3195.143,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3195.023,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3199.963,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        },
+        {
+            "current": 3100.0,
+            "min": 1500.0,
+            "max": 3100.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 63.96875,
+            "used": 5.139842987060547
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3090",
+            "memory_total": 25769803776
+        }
+    ],
+    "memory": {
+        "total": 503.2390594482422
+    }
+}
