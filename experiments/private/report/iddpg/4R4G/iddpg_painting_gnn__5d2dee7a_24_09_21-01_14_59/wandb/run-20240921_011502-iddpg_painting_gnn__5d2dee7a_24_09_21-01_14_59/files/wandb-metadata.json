@@ -1,0 +1,129 @@
+{
+    "os": "Linux-4.18.0-513.18.1.el8_9.x86_64-x86_64-with-glibc2.28",
+    "python": "3.11.0",
+    "heartbeatAt": "2024-09-21T00:15:03.134483",
+    "startedAt": "2024-09-21T00:15:02.352325",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "seed=2",
+        "experiment=bp_experiment",
+        "model=layers/gnn",
+        "model@critic_model=layers/mlp",
+        "algorithm=iddpg",
+        "task=vmas/painting"
+    ],
+    "state": "running",
+    "program": "/user/work/vd20433/BenchMARL/benchmarl/run.py",
+    "codePathLocal": "benchmarl/run.py",
+    "codePath": "benchmarl/run.py",
+    "host": "bp1-gpu019.data.bp.acrc.priv",
+    "username": "vd20433",
+    "executable": "/user/home/vd20433/work/miniconda3/envs/benchmarl/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 16,
+    "cpu_freq": {
+        "current": 2914.6135625,
+        "min": 3000.0,
+        "max": 3000.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2559.782,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 2797.006,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 2866.541,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 2560.63,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 3000.0,
+            "min": 3000.0,
+            "max": 3000.0
+        },
+        {
+            "current": 2983.415,
+            "min": 3000.0,
+            "max": 3000.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 63.96875,
+            "used": 5.1503448486328125
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 2080 Ti",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 2080 Ti",
+            "memory_total": 11811160064
+        }
+    ],
+    "memory": {
+        "total": 187.05258178710938
+    }
+}
