@@ -3,7 +3,6 @@
 
 # BenchMARL
 [![tests](https://github.com/facebookresearch/BenchMARL/actions/workflows/unit_tests.yml/badge.svg)](test)
-[![codecov](https://codecov.io/github/facebookresearch/BenchMARL/coverage.svg?branch=main)](https://codecov.io/gh/facebookresearch/BenchMARL)
 [![Documentation Status](https://readthedocs.org/projects/benchmarl/badge/?version=latest)](https://benchmarl.readthedocs.io/en/latest/?badge=latest)
 [![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue.svg)](https://www.python.org/downloads/)
 <a href="https://pypi.org/project/benchmarl"><img src="https://img.shields.io/pypi/v/benchmarl" alt="pypi version"></a>
@@ -19,7 +18,8 @@ python benchmarl/run.py algorithm=mappo task=vmas/balance
 [![Examples](https://img.shields.io/badge/Examples-blue.svg)](examples) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/facebookresearch/BenchMARL/blob/main/notebooks/run.ipynb)
 [![Static Badge](https://img.shields.io/badge/Benchmarks-Wandb-yellow)](https://wandb.ai/matteobettini/benchmarl-public/reportlist)
 
-Watch the [talk on multi-agent simulation and learning in BenchMARL and TorchRL](https://www.youtube.com/watch?v=1tOIMgJf_VQ).
+- Watch the [talk on multi-agent simulation and learning in BenchMARL and TorchRL](https://www.youtube.com/watch?v=1tOIMgJf_VQ).
+- Watch the [lecture on creating a custom scenario in VMAS and training it in BenchMARL](https://www.youtube.com/watch?v=mIb1uGeRJsg)
 
 ### What is BenchMARL 🧐?
 
@@ -75,6 +75,8 @@ the domain and want to easily take a picture of the landscape.
 
 ### Notebooks
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/facebookresearch/BenchMARL/blob/main/notebooks/run.ipynb) &ensp; **Running BenchMARL experiments**.
+- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/proroklab/VectorizedMultiAgentSimulator/blob/main/notebooks/Simulation_and_training_in_VMAS_and_BenchMARL.ipynb) &ensp;  **Creating a VMAS scenario and training it in BenchMARL**.  We will create a scenario where multiple robots with different embodiments need to navigate to their goals while avoiding each other (as well as obstacles) and train it using MAPPO and MLP/GNN policies.
+
 
 ### Install
 
@@ -117,6 +119,13 @@ pip install "pettingzoo[all]"
 ```bash
 pip install dm-meltingpot
 ```
+
+##### MAgent2
+
+```bash
+pip install git+https://github.com/Farama-Foundation/MAgent2
+```
+
 ##### SMACv2
 
 Follow the instructions on the environment [repository](https://github.com/oxwhirl/smacv2).
@@ -240,13 +249,14 @@ determine the training strategy. Here is a table with the currently implemented 
 challenge to solve.
 They differ based on many aspects, here is a table with the current environments in BenchMARL
 
-| Environment                                                        | Tasks                                | Cooperation               | Global state | Reward function               | Action space          |    Vectorized    |
-|--------------------------------------------------------------------|--------------------------------------|---------------------------|--------------|-------------------------------|-----------------------|:----------------:|
-| [VMAS](https://github.com/proroklab/VectorizedMultiAgentSimulator) | [27](benchmarl/conf/task/vmas)       | Cooperative + Competitive | No           | Shared + Independent + Global | Continuous + Discrete |       Yes        |    
-| [SMACv2](https://github.com/oxwhirl/smacv2)                        | [15](benchmarl/conf/task/smacv2)     | Cooperative               | Yes          | Global                        | Discrete              |        No        |
-| [MPE](https://github.com/openai/multiagent-particle-envs)          | [8](benchmarl/conf/task/pettingzoo)  | Cooperative + Competitive | Yes          | Shared + Independent          | Continuous + Discrete |        No        |
-| [SISL](https://github.com/sisl/MADRL)                              | [2](benchmarl/conf/task/pettingzoo)  | Cooperative               | No           | Shared                        | Continuous            |        No        |
-| [MeltingPot](https://github.com/google-deepmind/meltingpot)        | [49](benchmarl/conf/task/meltingpot) | Cooperative + Competitive | Yes          | Independent                   | Discrete              |        No        |
+| Environment                                                         | Tasks                                | Cooperation               | Global state | Reward function               | Action space          |    Vectorized    |
+|---------------------------------------------------------------------|--------------------------------------|---------------------------|--------------|-------------------------------|-----------------------|:----------------:|
+| [VMAS](https://github.com/proroklab/VectorizedMultiAgentSimulator)  | [27](benchmarl/conf/task/vmas)       | Cooperative + Competitive | No           | Shared + Independent + Global | Continuous + Discrete |       Yes        |    
+| [SMACv2](https://github.com/oxwhirl/smacv2)                         | [15](benchmarl/conf/task/smacv2)     | Cooperative               | Yes          | Global                        | Discrete              |        No        |
+| [MPE](https://github.com/openai/multiagent-particle-envs)           | [8](benchmarl/conf/task/pettingzoo)  | Cooperative + Competitive | Yes          | Shared + Independent          | Continuous + Discrete |        No        |
+| [SISL](https://github.com/sisl/MADRL)                               | [2](benchmarl/conf/task/pettingzoo)  | Cooperative               | No           | Shared                        | Continuous            |        No        |
+| [MeltingPot](https://github.com/google-deepmind/meltingpot)         | [49](benchmarl/conf/task/meltingpot) | Cooperative + Competitive | Yes          | Independent                   | Discrete              |        No        |
+| [MAgent2](https://github.com/Farama-Foundation/magent2)             | [1](benchmarl/conf/task/magent)      | Cooperative + Competitive | Yes          | Global in groups              | Discrete              |        No        |
 
 
 > [!NOTE]  
@@ -435,12 +445,13 @@ a script [![Example](https://img.shields.io/badge/Example-blue.svg)](examples/co
 BenchMARL has several features:
 - A test CI with integration and training test routines that are run for all simulators and algorithms
 - Integration in the official TorchRL ecosystem for dedicated support
+- Possibility of using different algorithms and models for different agent groups (see [`examples/ensemble`](examples/ensemble))
 
 
 ### Logging
 
 BenchMARL is compatible with the [TorchRL loggers](https://github.com/pytorch/rl/tree/main/torchrl/record/loggers).
-A list of logger names can be provided in the [experiment config](benchmarl/conf/experiment/base_experiment.yaml).
+A list of logger names can be provided in the [experiment config])(benchmarl/conf/experiment/base_experiment.yaml.
 Example of available options are: `wandb`, `csv`, `mflow`, `tensorboard` or any other option available in TorchRL. You can specify the loggers
 in the yaml config files or in the script arguments like so:
 ```bash
@@ -466,8 +477,18 @@ To load from a checkpoint, pass the absolute checkpoint file name to `experiment
 ```bash
 python benchmarl/run.py task=vmas/balance algorithm=mappo experiment.max_n_iters=6 experiment.on_policy_collected_frames_per_batch=100 experiment.restore_file="/hydra/experiment/folder/checkpoint/checkpoint_300.pt"
 ```
-
+Here is a python example when modifying the config
 [![Example](https://img.shields.io/badge/Example-blue.svg)](examples/checkpointing/reload_experiment.py)
+and one keeping the same config 
+[![Example](https://img.shields.io/badge/Example-blue.svg)](examples/checkpointing/resume_experiment.py).
+
+There are also ways to **resume** and **evaluate** hydra experiments directly from the file
+```bash
+python benchmarl/evaluate.py ../outputs/2024-09-09/20-39-31/mappo_balance_mlp__cd977b69_24_09_09-20_39_31/checkpoints/checkpoint_100.pt
+```
+```bash
+python benchmarl/resume.py ../outputs/2024-09-09/20-39-31/mappo_balance_mlp__cd977b69_24_09_09-20_39_31/checkpoints/checkpoint_100.pt
+```
 
 ### Callbacks
 

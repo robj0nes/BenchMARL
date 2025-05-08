@@ -14,7 +14,7 @@ import torch.nn.functional as F
 from tensordict import TensorDict, TensorDictBase
 from tensordict.utils import expand_as_right, unravel_key_list
 from torch import nn
-from torchrl.data.tensor_specs import CompositeSpec, UnboundedContinuousTensorSpec
+from torchrl.data.tensor_specs import Composite, Unbounded
 
 from torchrl.modules import LSTMCell, MLP, MultiAgentMLP
 
@@ -188,17 +188,18 @@ class MultiAgentLSTM(torch.nn.Module):
         seq = input.shape[1]
         assert input.shape == (batch, seq, self.n_agents, self.input_size)
 
-        if h_0 is not None:  # Collection
+        if not training:  # Collection
             # Set hidden to 0 when is_init
             h_0 = torch.where(expand_as_right(is_init, h_0), 0, h_0)
             c_0 = torch.where(expand_as_right(is_init, c_0), 0, c_0)
+            is_init = is_init.unsqueeze(
+                1
+            )  # If in collection emulate the sequence dimension
 
-        if not training:  # If in collection emulate the sequence dimension
-            is_init = is_init.unsqueeze(1)
         assert is_init.shape == (batch, seq, 1)
         is_init = is_init.unsqueeze(-2).expand(batch, seq, self.n_agents, 1)
 
-        if h_0 is None:
+        if training:
             if self.centralised and self.share_params:
                 shape = (
                     batch,
@@ -530,13 +531,13 @@ class LstmConfig(ModelConfig):
     def is_rnn(self) -> bool:
         return True
 
-    def get_model_state_spec(self, model_index: int = 0) -> CompositeSpec:
-        spec = CompositeSpec(
+    def get_model_state_spec(self, model_index: int = 0) -> Composite:
+        spec = Composite(
             {
-                f"_hidden_lstm_c_{model_index}": UnboundedContinuousTensorSpec(
+                f"_hidden_lstm_c_{model_index}": Unbounded(
                     shape=(self.n_layers, self.hidden_size)
                 ),
-                f"_hidden_lstm_h_{model_index}": UnboundedContinuousTensorSpec(
+                f"_hidden_lstm_h_{model_index}": Unbounded(
                     shape=(self.n_layers, self.hidden_size)
                 ),
             }

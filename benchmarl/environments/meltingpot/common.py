@@ -3,13 +3,13 @@
 #  This source code is licensed under the license found in the
 #  LICENSE file in the root directory of this source tree.
 #
-
+import copy
 from typing import Callable, Dict, List, Optional
 
 import torch
 from tensordict import TensorDictBase
 
-from torchrl.data import CompositeSpec
+from torchrl.data import Composite
 from torchrl.envs import (
     DoubleToFloat,
     DTypeCastTransform,
@@ -18,8 +18,118 @@ from torchrl.envs import (
     Transform,
 )
 
-from benchmarl.environments.common import Task
+from benchmarl.environments.common import Task, TaskClass
 from benchmarl.utils import DEVICE_TYPING
+
+
+class MeltingPotClass(TaskClass):
+    def get_env_fun(
+        self,
+        num_envs: int,
+        continuous_actions: bool,
+        seed: Optional[int],
+        device: DEVICE_TYPING,
+    ) -> Callable[[], EnvBase]:
+        from torchrl.envs.libs.meltingpot import MeltingpotEnv
+
+        config = copy.deepcopy(self.config)
+
+        return lambda: MeltingpotEnv(
+            substrate=self.name.lower(),
+            categorical_actions=True,
+            device=device,
+            **config,
+        )
+
+    def supports_continuous_actions(self) -> bool:
+        return False
+
+    def supports_discrete_actions(self) -> bool:
+        return True
+
+    def has_render(self, env: EnvBase) -> bool:
+        return True
+
+    def max_steps(self, env: EnvBase) -> int:
+        return self.config.get("max_steps", 100)
+
+    def group_map(self, env: EnvBase) -> Dict[str, List[str]]:
+        return env.group_map
+
+    def get_env_transforms(self, env: EnvBase) -> List[Transform]:
+        interaction_inventories_keys = [
+            (group, "observation", "INTERACTION_INVENTORIES")
+            for group in self.group_map(env).keys()
+            if (group, "observation", "INTERACTION_INVENTORIES")
+            in env.observation_spec.keys(True, True)
+        ]
+        return [DoubleToFloat()] + (
+            [
+                FlattenObservation(
+                    in_keys=interaction_inventories_keys,
+                    first_dim=-2,
+                    last_dim=-1,
+                )
+            ]
+            if len(interaction_inventories_keys)
+            else []
+        )
+
+    def get_replay_buffer_transforms(self, env: EnvBase, group: str) -> List[Transform]:
+        return [
+            DTypeCastTransform(
+                dtype_in=torch.uint8,
+                dtype_out=torch.float,
+                in_keys=[
+                    "RGB",
+                    (group, "observation", "RGB"),
+                    ("next", "RGB"),
+                    ("next", group, "observation", "RGB"),
+                ],
+                in_keys_inv=[],
+            )
+        ]
+
+    def state_spec(self, env: EnvBase) -> Optional[Composite]:
+        observation_spec = env.observation_spec.clone()
+        for group in self.group_map(env):
+            del observation_spec[group]
+        if list(observation_spec.keys()) != ["RGB"]:
+            raise ValueError(
+                f"More than one global state key found in observation spec {observation_spec}."
+            )
+        return observation_spec
+
+    def action_mask_spec(self, env: EnvBase) -> Optional[Composite]:
+        return None
+
+    def observation_spec(self, env: EnvBase) -> Composite:
+        observation_spec = env.observation_spec.clone()
+        for group_key in list(observation_spec.keys()):
+            if group_key not in self.group_map(env).keys():
+                del observation_spec[group_key]
+        return observation_spec
+
+    def info_spec(self, env: EnvBase) -> Optional[Composite]:
+        observation_spec = env.observation_spec.clone()
+        for group_key in list(observation_spec.keys()):
+            if group_key not in self.group_map(env).keys():
+                del observation_spec[group_key]
+            else:
+                group_obs_spec = observation_spec[group_key]["observation"]
+                del group_obs_spec["RGB"]
+        return observation_spec
+
+    def action_spec(self, env: EnvBase) -> Composite:
+        return env.full_action_spec
+
+    @staticmethod
+    def env_name() -> str:
+        return "meltingpot"
+
+    @staticmethod
+    def render_callback(experiment, env: EnvBase, data: TensorDictBase):
+        return data.get("RGB")
 
 
 class MeltingPotTask(Task):
@@ -75,114 +185,6 @@ class MeltingPotTask(Task):
     BOAT_RACE__EIGHT_RACES = None
     EXTERNALITY_MUSHROOMS__DENSE = None
 
-    def get_env_fun(
-        self,
-        num_envs: int,
-        continuous_actions: bool,
-        seed: Optional[int],
-        device: DEVICE_TYPING,
-    ) -> Callable[[], EnvBase]:
-        from torchrl.envs.libs.meltingpot import MeltingpotEnv
-
-        return lambda: MeltingpotEnv(
-            substrate=self.name.lower(),
-            categorical_actions=True,
-            device=device,
-            **self.config,
-        )
-
-    def supports_continuous_actions(self) -> bool:
-        return False
-
-    def supports_discrete_actions(self) -> bool:
-        return True
-
-    def has_render(self, env: EnvBase) -> bool:
-        return True
-
-    def max_steps(self, env: EnvBase) -> int:
-        return self.config.get("max_steps", 100)
-
-    def group_map(self, env: EnvBase) -> Dict[str, List[str]]:
-        return env.group_map
-
-    def get_env_transforms(self, env: EnvBase) -> List[Transform]:
-        interaction_inventories_keys = [
-            (group, "observation", "INTERACTION_INVENTORIES")
-            for group in self.group_map(env).keys()
-            if (group, "observation", "INTERACTION_INVENTORIES")
-            in env.observation_spec.keys(True, True)
-        ]
-        return [DoubleToFloat()] + (
-            [
-                FlattenObservation(
-                    in_keys=interaction_inventories_keys,
-                    first_dim=-2,
-                    last_dim=-1,
-                )
-            ]
-            if len(interaction_inventories_keys)
-            else []
-        )
-
-    def get_replay_buffer_transforms(self, env: EnvBase) -> List[Transform]:
-        return [
-            DTypeCastTransform(
-                dtype_in=torch.uint8,
-                dtype_out=torch.float,
-                in_keys=[
-                    "RGB",
-                    *[
-                        (group, "observation", "RGB")
-                        for group in self.group_map(env).keys()
-                    ],
-                    ("next", "RGB"),
-                    *[
-                        ("next", group, "observation", "RGB")
-                        for group in self.group_map(env).keys()
-                    ],
-                ],
-                in_keys_inv=[],
-            )
-        ]
-
-    def state_spec(self, env: EnvBase) -> Optional[CompositeSpec]:
-        observation_spec = env.observation_spec.clone()
-        for group in self.group_map(env):
-            del observation_spec[group]
-        if list(observation_spec.keys()) != ["RGB"]:
-            raise ValueError(
-                f"More than one global state key found in observation spec {observation_spec}."
-            )
-        return observation_spec
-
-    def action_mask_spec(self, env: EnvBase) -> Optional[CompositeSpec]:
-        return None
-
-    def observation_spec(self, env: EnvBase) -> CompositeSpec:
-        observation_spec = env.observation_spec.clone()
-        for group_key in list(observation_spec.keys()):
-            if group_key not in self.group_map(env).keys():
-                del observation_spec[group_key]
-        return observation_spec
-
-    def info_spec(self, env: EnvBase) -> Optional[CompositeSpec]:
-        observation_spec = env.observation_spec.clone()
-        for group_key in list(observation_spec.keys()):
-            if group_key not in self.group_map(env).keys():
-                del observation_spec[group_key]
-            else:
-                group_obs_spec = observation_spec[group_key]["observation"]
-                del group_obs_spec["RGB"]
-        return observation_spec
-
-    def action_spec(self, env: EnvBase) -> CompositeSpec:
-        return env.full_action_spec
-
     @staticmethod
-    def env_name() -> str:
-        return "meltingpot"
-
-    @staticmethod
-    def render_callback(experiment, env: EnvBase, data: TensorDictBase):
-        return data.get("RGB")
+    def associated_class():
+        return MeltingPotClass
