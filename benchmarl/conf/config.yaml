@@ -1,6 +1,6 @@
 defaults:
   - experiment: base_experiment
-  - algorithm: ???
+  - algorithm: maddpg
   - task: ???
   - model: layers/mlp
   - model@critic_model: layers/mlp

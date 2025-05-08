@@ -226,7 +226,7 @@ class Logger:
         if video_frames is not None and rollouts[0].batch_size[0] > 1:
             video_frames = np.stack(
                 video_frames[: rollouts[0].batch_size[0] - 1], axis=0
-            )
+            ).astype('uint8')
             vid = torch.tensor(
                 np.transpose(video_frames, (0, 3, 1, 2)),
                 dtype=torch.uint8,
